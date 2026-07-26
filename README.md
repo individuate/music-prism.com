@@ -9,10 +9,10 @@ This repository hosts the public downloads and the Sparkle auto-update feed.
 
 Get the latest signed, notarized build:
 
-**[Download Music Prism (.dmg)](https://github.com/individuate/MusicPrism.com/releases/latest/download/MusicPrism.dmg)**
+**[Download Music Prism (.dmg)](https://github.com/individuate/music-prism.com/releases/latest/download/MusicPrism.dmg)**
 
 Installed copies update themselves via [Sparkle](https://sparkle-project.org),
 which polls the appcast at
-`https://github.com/individuate/MusicPrism.com/releases/latest/download/appcast.xml`.
+`https://github.com/individuate/music-prism.com/releases/latest/download/appcast.xml`.
 
 A marketing site will live here at [music-prism.com](https://music-prism.com).
