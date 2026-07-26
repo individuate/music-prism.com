@@ -1,12 +1,12 @@
 # GitHub Pages serves this repo's tracked files from the root, so anything
-# committed here is reachable on music-prism.com unless it is excluded. These
-# files belong in version control but not on the public site.
+# committed here is reachable on music-prism.com unless it is excluded.
+#
+# Very little needs excluding now: this repo is published by publish_site.py in
+# the private app repo, and only allowlisted files travel. README.md is here for
+# github.com's benefit, not the domain's.
 #
 # NOTE: this only takes effect while Jekyll processes the site. If a `.nojekyll`
-# file is ever added, Pages serves every tracked file verbatim and these
-# exclusions stop applying — revisit this then.
+# file is ever added, Pages serves every tracked file verbatim and this
+# exclusion stops applying — revisit this then.
 exclude:
-  - CLAUDE.md
-  - DESIGN.md
   - README.md
-  - .impeccable/

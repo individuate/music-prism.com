@@ -16,3 +16,9 @@ which polls the appcast at
 `https://github.com/individuate/music-prism.com/releases/latest/download/appcast.xml`.
 
 A marketing site will live here at [music-prism.com](https://music-prism.com).
+
+---
+
+*The tracked files in this repository are published from a private source repo;
+edits made here are overwritten by the next publish. Releases and tags are not
+touched by that process.*
