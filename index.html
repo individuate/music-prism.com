@@ -1234,6 +1234,9 @@ a { color: inherit; }
 }
 .colophon h3 { color: var(--ink); font-size: var(--size-name); line-height: 1.25; margin-bottom: 1rem; }
 .colophon p { max-width: none; margin-bottom: 1rem; }
+/* Two asides in the same register are one closing suite: the second sits at
+   3rem, not the 5rem that separates the suite from the version stamp above. */
+.colophon + .colophon { margin-top: 3rem; }
 /* The footer carries the privacy facts — below the hairline, above the
    copyright, in the quiet register they belong in. */
 footer {
@@ -3369,6 +3372,19 @@ footer p {
     <p>The Help menu gives you a way to report a bug or ask for a feature, right
       inside the app. It drafts the email; you send it. We read every one, and
       feature requests get collected and built into the app over time.</p>
+  </div>
+
+  <!-- Facts only, matched to the shipped build: the keyboard cursor and
+       announcements live in src/main.js, the diagram labels in the renderers,
+       and the two system settings in tokens.css / styles.css. Nothing here may
+       promise a feature the build doesn't have. -->
+  <div class="colophon">
+    <h3>Accessibility is built in.</h3>
+    <p>The whole app works from the keyboard — every control is reachable, and
+      in the Identify view the arrow keys walk the fretboard or the piano while
+      Enter marks a note. Every diagram describes itself to VoiceOver, naming
+      each chord tone, and Identify announces the chord it finds. Light and
+      dark follow your Mac’s appearance, and Reduce Motion is honored.</p>
   </div>
 </section>
 
