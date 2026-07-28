@@ -340,40 +340,49 @@ a { color: inherit; }
 
 .appearance { display: none; }
 :root.js .appearance {
-  display: block;
-  margin-bottom: 1.9rem;
+  display: flex;
+  align-items: baseline;
+
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .appearance .label {
   font-size: var(--micro-size);
   font-weight: 300;
 }
-.theme-set { display: flex; gap: 0.3rem; margin-top: 0.42rem; }
+
+.theme-set { display: flex; align-items: baseline; gap: 0.75rem; }
 
 .theme-btn {
   font-family: var(--sans);
   font-size: var(--meta-size);
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.2;
-  color: var(--ink);
+  color: var(--ink-soft);
   background: none;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-xs);
-  padding: 0.26rem 0.45rem;
+  border: 0;
+  padding: 0;
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
-.theme-btn:hover { border-color: var(--ink-soft); }
+
+.theme-btn:hover {
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
 
 .theme-btn[aria-pressed="true"] {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--paper);
+  color: var(--ink);
+  font-weight: 500;
 }
 
 @media (pointer: coarse) {
-  .theme-btn { padding: 0.55rem 0.65rem; }
+  .theme-btn { position: relative; }
+  .theme-btn::after { content: ""; position: absolute; inset: -0.85rem -0.3rem; }
 }
 
 @media (min-width: 1100px) {
@@ -768,6 +777,8 @@ footer p {
   }
   .hero-card { order: 0; }
   .hero-card { max-width: none; padding: 0 0 1rem; margin-left: 0; }
+
+  :root.js .appearance { justify-content: flex-end; }
   .hero-card::before { display: none; }
   .plate { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; padding: 4rem 0; }
 
@@ -814,7 +825,9 @@ footer p {
 @media print {
   .hero { min-height: auto; border-bottom-width: 1px; }
 
-  .sheet-field, .skip, .lightbox, .appearance { display: none; }
+  .sheet-field, .skip,
+  .lightbox, .lightbox.active,
+  .appearance, :root.js .appearance { display: none; }
   .hero-card { max-width: none; margin: 0; }
 
   .plate, .print, .atom, .instruments { grid-template-columns: 1fr; gap: 1.5rem; }
