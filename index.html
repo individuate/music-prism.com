@@ -39,7 +39,11 @@
   if (signal && !(looksMac && navigator.maxTouchPoints === 0)) el.className += ' not-mac';
 
   var theme = new URLSearchParams(location.search).get('theme');
+  if (theme !== 'light' && theme !== 'dark') {
+    try { theme = localStorage.getItem('musicprism:theme'); } catch (e) { theme = null; }
+  }
   if (theme === 'light' || theme === 'dark') el.dataset.theme = theme;
+  el.className += ' js';
 })();
 </script>
 <style>
@@ -308,7 +312,11 @@ a { color: inherit; }
   z-index: -1;
 }
 
-.wordmark { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 2.2rem; }
+.wordmark {
+  display: flex; align-items: center; gap: 0.85rem;
+  padding-top: 1rem;
+  margin-bottom: 2.2rem;
+}
 .wordmark img { width: 62px; height: 62px; display: block; }
 
 .app-tile { position: relative; display: inline-block; line-height: 0; }
@@ -329,6 +337,53 @@ a { color: inherit; }
 }
 
 .wordmark span { font-size: var(--size-name); font-weight: 700; }
+
+.appearance { display: none; }
+:root.js .appearance {
+  display: block;
+  margin-bottom: 1.9rem;
+}
+
+.appearance .label {
+  font-size: var(--micro-size);
+  font-weight: 300;
+}
+.theme-set { display: flex; gap: 0.3rem; margin-top: 0.42rem; }
+
+.theme-btn {
+  font-family: var(--sans);
+  font-size: var(--meta-size);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xs);
+  padding: 0.26rem 0.45rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.theme-btn:hover { border-color: var(--ink-soft); }
+
+.theme-btn[aria-pressed="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+@media (pointer: coarse) {
+  .theme-btn { padding: 0.55rem 0.65rem; }
+}
+
+@media (min-width: 1100px) {
+
+  .hero { align-items: stretch; padding-top: 1.75rem; }
+  .hero-card { display: flex; flex-direction: column; padding-top: 0; }
+  .hero-stack { margin: auto 0; }
+
+  :root.js .appearance { margin-bottom: 3.6rem; }
+}
 
 .lead {
   font-size: var(--size-lead);
@@ -759,7 +814,7 @@ footer p {
 @media print {
   .hero { min-height: auto; border-bottom-width: 1px; }
 
-  .sheet-field, .skip, .lightbox { display: none; }
+  .sheet-field, .skip, .lightbox, .appearance { display: none; }
   .hero-card { max-width: none; margin: 0; }
 
   .plate, .print, .atom, .instruments { grid-template-columns: 1fr; gap: 1.5rem; }
@@ -1965,11 +2020,23 @@ footer p {
 </div>
 
   <div class="hero-card" id="offer" tabindex="-1">
+
+    <div class="appearance" role="group" aria-labelledby="appearance-label">
+      <span class="label" id="appearance-label">Site appearance</span>
+      <div class="theme-set">
+        <button class="theme-btn" type="button" data-theme-set="auto" aria-pressed="true">Auto</button>
+        <button class="theme-btn" type="button" data-theme-set="light" aria-pressed="false">Light</button>
+        <button class="theme-btn" type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+      </div>
+    </div>
+
+    <div class="hero-stack">
     <div class="wordmark">
       <span class="app-tile"><img src="images/icon.png" alt="" width="512" height="512"></span>
       <span translate="no">Music Prism</span>
     </div>
-    <h1>A chord reference that helps you<br>find your voice<span class="voicing-ing">(ing)</span>.</h1>
+
+    <h1>A chord reference that helps you <br>find your voice<span class="voicing-ing">(ing)</span>.</h1>
     <p class="lead">Guitar, bass, ukulele, and piano. Beginners get a fast, visual
       reference for where the fingers go. Intermediate players explore new voicings
       and tougher progressions. And skilled players refresh their memory on how that
@@ -1977,6 +2044,7 @@ footer p {
     <a class="btn" data-download href="https://github.com/individuate/music-prism.com/releases/latest/download/MusicPrism.dmg">Download for Mac</a>
     <p class="btn-note" data-mac-note>A macOS app — visit this page on your Mac to download.</p>
     <p class="kicker">Old-school macOS app. No login. No cloud. Free.</p>
+    </div>
   </div>
 </section>
 
@@ -2661,6 +2729,48 @@ footer p {
 </div>
 
 <script>
+
+(function () {
+  var root = document.documentElement;
+  var group = document.querySelector('.appearance');
+  if (!group) return;
+
+  var STORE = 'musicprism:theme';
+  var DARK = '(prefers-color-scheme: dark)';
+  var LIGHT = '(prefers-color-scheme: light)';
+  var darkSet = document.querySelectorAll(
+    'source[media="' + DARK + '"], meta[media="' + DARK + '"]');
+  var lightSet = document.querySelectorAll('meta[media="' + LIGHT + '"]');
+  var buttons = group.querySelectorAll('[data-theme-set]');
+
+  function apply(choice) {
+    if (choice === 'auto') delete root.dataset.theme;
+    else root.dataset.theme = choice;
+
+    darkSet.forEach(function (el) {
+      el.setAttribute('media', choice === 'auto' ? DARK : (choice === 'dark' ? 'all' : 'not all'));
+    });
+    lightSet.forEach(function (el) {
+      el.setAttribute('media', choice === 'auto' ? LIGHT : (choice === 'light' ? 'all' : 'not all'));
+    });
+    buttons.forEach(function (b) {
+      b.setAttribute('aria-pressed', b.dataset.themeSet === choice ? 'true' : 'false');
+    });
+  }
+
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var choice = b.dataset.themeSet;
+      apply(choice);
+      try {
+        if (choice === 'auto') localStorage.removeItem(STORE);
+        else localStorage.setItem(STORE, choice);
+      } catch (e) { /* no store, no memory; the page still obeys */ }
+    });
+  });
+
+  apply(root.dataset.theme || 'auto');
+})();
 
 (function () {
   var overlay = document.getElementById('lightbox');
