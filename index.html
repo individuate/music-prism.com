@@ -1,46 +1,10 @@
 <!doctype html>
 <!--
-  music-prism.com — hand-written, no build step, no dependencies.
-
-  Copy is authored in ../website-workspace/copy-deck.md (which owns wording; this
-  file owns markup). Structure and rationale: ../website-workspace/structure.md.
-
-  THESIS — The page is a printer's contact sheet that zooms. It opens on the whole
-  corpus (sixty computed diagrams, full bleed) and every movement after shows fewer
-  things larger, ending on one tone dot and the arithmetic that put it there.
-  Plurality proves the engine before a word is read. It refuses the category
-  default: a headline over one hero shot, then N equal-weight alternating feature
-  blocks. Equal weight is what makes a feature list read as a feature list.
-
-  OWN-WORLD — The Engraver's Proof, inherited exactly from ../../DESIGN.md. Warm
-  paper #FAF6EF, ink #292319, four tone colors that mean scale degrees and nothing
-  else, hairline rules, flat surfaces, 2px radii, system serif for music and
-  tracked uppercase sans for apparatus. No web font, no gradient, no resting
-  shadow, no card. The site's licence is volume, not vocabulary.
-
-  STORY — A player on a Mac understands in eight seconds that this is a
-  multi-instrument chord reference whose diagrams are computed rather than copied,
-  sees the app actually doing it seven times, and downloads a free .dmg with
-  nothing to sign up for.
-
-  FIRST VIEWPORT — Full-bleed field of sixty small computed diagrams, twelve roots
-  across by five instrument/quality bands down, bleeding off all four sides. Set
-  into it at left, on an opaque paper field: the mark, the wordmark, the headline,
-  one line of sub, the download button, the tracked kicker. No nav bar.
-
-  FORM — The Contact Sheet; candidate 4 of 7 on the grounded structural list,
-  assigned by seed a7f00ac2 (surface / persuade). Staging is the grounded one — a
-  fixed spine, count decreasing and scale increasing down the page — not the dealt
-  interaction-physics-two-key-commit, which was weighed and rejected because a
-  committed fetch-and-seat interaction collides with the standing rule that this
-  site never runs the reference.
-
-  Every chord diagram below is emitted by the app's OWN renderers via
-  ../website-workspace/generate-figures.mjs — not drawn by hand, not traced. The
-  page claims the diagrams are computed; the page's diagrams are computed. Blocks
-  between GENERATED markers are that script's output: re-run it, then re-splice
-  with ../website-workspace/assemble.mjs. Do not hand-edit inside the markers.
+  Hand-written — no build step, no framework, no web font. Every chord diagram
+  on this page was emitted by the app's own renderers: the page claims the
+  diagrams are computed, and the page's diagrams are computed.
 -->
+
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -57,62 +21,15 @@
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
 <meta property="og:image:alt" content="The Music Prism mark: a dominant-7 chord drawn on the chromatic clock, four tone dots joined by an ink polygon.">
-<!-- summary, not summary_large_image: the only image the site has is a 512x512
-     square mark, and a large card is 1200x630 at about 2:1, so every unfurl —
-     Slack, iMessage, X, Discord — would centre-crop the mark and cut the top
-     and bottom off it. A small card renders a square correctly. Upgrade this
-     the day a real 1200x630 card exists; the hero contact sheet would make one.
-     The declared width/height save every crawler a second fetch. -->
+
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="images/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="images/icon.png">
 <meta name="theme-color" content="#FAF6EF" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#211D16" media="(prefers-color-scheme: dark)">
-<!-- Website app ID, distinct from the macOS app's — site traffic and app usage stay
-     separate dashboards. Sends pageView automatically and nothing else; no cookies,
-     no persistent ID. Deliberately carries no integrity hash: the CDN URL is
-     unversioned, so pinning a hash would silently break analytics on their next
-     release rather than protect anything on a page that holds no credentials.
-     Deferred: without it this blocked the parser on a third-party DNS lookup,
-     TLS handshake and fetch before a byte of the inline stylesheet was read —
-     a network dependency in the critical path, on a page that refuses to load
-     a web font specifically to avoid one. Nothing needs the SDK at parse time;
-     its only caller guards with `if (td && td.signal)`. -->
+
 <script defer src="https://cdn.telemetrydeck.com/websdk/telemetrydeck.min.js" data-app-id="1A4A7327-7E09-45F3-9086-3719EDD3D414"></script>
-<!-- Two decisions the page has to make before it paints, both inline and both
-     blocking on purpose: they are a few microseconds of arithmetic against a
-     visible jump if they run late.
 
-  1. WHICH PLATFORM. The download button is for macOS laptops and desktops;
-     everyone else gets a one-line explanation instead. This used to run at the
-     end of <body> and swap `hidden` on the elements after parse, which changed
-     the hero's height by 10px on a phone and 30px on a desktop — a first-paint
-     shift for the majority of a public site's visitors, and the majority is the
-     case this branch exists to serve. Deciding here means the CSS below has the
-     answer before the hero exists, so there is no swap to see.
-
-     True platform detection rather than LYFP's viewport proxy, so a Mac in a
-     narrow window still sees its button. iPadOS reports "MacIntel" but has touch
-     points; a Mac has none. navigator.platform is deprecated and was once the
-     only signal here — the day a browser drops it, /Mac/.test(undefined) is
-     false and the page hides its only call to action from exactly the people it
-     is for. Read the modern field first, then platform, then the user-agent
-     string, which still says "Macintosh" everywhere that matters.
-
-     Fails open the same way the no-JS path does: no signal at all, or no script
-     at all, shows the button. The note is hidden by default in CSS and revealed
-     only by this class, so a reader with JavaScript off gets the safe state
-     rather than both halves of the branch.
-
-  2. WHICH THEME. `?theme=light|dark` overrides prefers-color-scheme, exactly as
-     src/main.js:845 does it for the app — same parameter, same attribute, same
-     two values, and the `:root[data-theme]` rules it drives are already in the
-     shared token block. The site had the CSS and not the three lines that reach
-     it, so the override was documented in two places (the comment on the plate
-     shots, and website-workspace/README.md's review instructions) and worked in
-     neither. Screenshots still follow the system appearance, because a <picture>
-     media query is not something a data-theme can move — which is why the review
-     note says to switch the system appearance for those. -->
 <script>
 (function () {
   var el = document.documentElement;
@@ -126,52 +43,7 @@
 })();
 </script>
 <style>
-/* ------------------------------------------------------------------ tokens
-   Everything between the markers below is ../../src/tokens.css, spliced in by
-   `node marketing/website-workspace/assemble.mjs`. Do not hand-edit it: change
-   src/tokens.css and re-run assemble. The app and the site are one visual
-   world, and tests/design-tokens.test.js fails if these two copies diverge.
 
-   The chord SVGs further down are the app's own renderer output and paint with
-   var(--ink), var(--root) and friends — so they theme correctly here for the
-   same reason they do in the app. */
-/* GENERATED:tokens — from ../../src/tokens.css */
-/* ============================================================== design tokens
-   The single source of truth for Music Prism's visual world, shared verbatim by
-   both surfaces that render it:
-
-     - the app  — imported at the top of src/styles.css
-     - the site — spliced into the <style> block of marketing/site/index.html,
-                  between its GENERATED:tokens markers, by
-                  marketing/website-workspace/assemble.mjs
-
-   Nothing in this file may be surface-specific. The site's own layout constants
-   (--page, --gutter) live in its stylesheet, below the generated block; the
-   app's (--sheet) live in src/styles.css. Anything both surfaces need belongs
-   here, and tests/design-tokens.test.js fails if the two copies ever diverge.
-
-   DESIGN.md is the prose for everything below — the Four Voices Rule, the Ink
-   Selection Rule, the Warm Field Rule, the shadow vocabulary, and the engraving
-   standard. Changing a value here without changing it there leaves the design
-   system describing a product that no longer exists.
-
-   Why the palette is written three times rather than once with light-dark():
-   src-tauri/tauri.conf.json sets minimumSystemVersion 10.15, and light-dark()
-   needs Safari 17.5 (macOS 14.5). On anything older the whole palette would
-   resolve to nothing. Light is declared once; dark is declared twice because a
-   media-query block and a selector block cannot be merged in plain CSS. Revisit
-   when the deployment floor passes macOS 14.5.
-   ========================================================================== */
-
-/* Light — the default, and the value of record for every token.
-
-   color-scheme rides the palette because it is the palette, as far as the
-   browser's own chrome is concerned: without it the UA keeps rendering its
-   light-scheme scrollbars against a dark page, and the canvas it shows past
-   the document edge — overscroll rubber-banding, the flash before first paint
-   — stays pure white behind a page whose ink-and-paper world bans pure white.
-   Declared three times with the colors it travels with, for the same reason
-   they are. */
 :root,
 :root[data-theme="light"] {
   color-scheme: light;
@@ -189,18 +61,6 @@
   --seventh: #7D4E78;
 }
 
-/* Dark is not an inversion — it is the same page cast in low light. Paper stays
-   warm (a brown-black, never a neutral gray) and the four tone colors lift
-   rather than brighten, so they hold their identity without glowing.
-
-   Both dark blocks are scoped to `screen`, so paper always gets the light plate
-   and the print stylesheet has nothing to undo. WKWebView already re-evaluates
-   prefers-color-scheme as light when it prints, so a Mac in Dark Mode was fine
-   — but `?theme=dark` sets data-theme on the root, which no media query undoes,
-   and that sheet printed at 1.29:1: pale warm grey on white paper. The Warm
-   Field Rule already lets the printed page go pure white, on the grounds that
-   paper supplies its own warmth; this is that argument carried through to the
-   rest of the palette. */
 @media screen and (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
@@ -236,187 +96,67 @@
   }
 }
 
-/* Everything below is theme-independent: the same in light and in dark. */
 :root {
-  /* ------------------------------------------------------------------ voices
-     Serif is music, sans is apparatus. There is no third stack.
 
-     The tail is not a third voice. Neither Iowan nor Seravek draws ♭ (U+266D)
-     or ♯ (U+266F), and neither do Palatino, Georgia, Avenir or Gill Sans: of
-     the faces this product declares, not one contains an accidental. Left to
-     the OS, every ♭ and ♯ in a chord reference came from whatever fallback
-     macOS reached for — set on an advance nearly twice the width it needed,
-     drawn past the cap height, and stuck at weight 400 inside chord names that
-     had asked for bold. "Every inversion of the E♭ chord" set as "E ♭  chord",
-     and it did that in the h1, in every root chip, in every legend spelling
-     and inside every 9.5px tone dot.
-
-     Both voices name the same accidental face, because an accidental is not a
-     letterform — it is a musical symbol, and by this system's own rule music
-     is the serif's job wherever it appears. STIXGeneral draws real engraver's
-     accidentals (a ♯ with slanted strokes and vertical stems, not a number
-     sign) and carries a true Bold, so a ♭ inside a bold chord name is bold
-     rather than synthesised. Helvetica Neue was the sans-matched candidate and
-     was rejected on exactly this point: its ♯ reads as #.
-
-     Apple Symbols follows as the catch-all — it is what draws the ▾ in the
-     phone summary, which is in no text face either — and Segoe UI Symbol is
-     the Windows equivalent, listed so a build there degrades deliberately
-     instead of arbitrarily. Fallback is per glyph: the letters still come from
-     the voice above, and only the symbols it cannot spell come from here. */
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
            STIXGeneral, "Apple Symbols", "Segoe UI Symbol", serif;
   --sans: Seravek, "Avenir Next", Avenir, "Gill Sans", "Segoe UI",
           STIXGeneral, "Apple Symbols", "Segoe UI Symbol", sans-serif;
 
-  /* The weight axis is 400 / 500 / 700, and it is not a choice — it is what
-     the two faces ship. Iowan Old Style is Roman 400, Bold 700, Black 900;
-     Seravek is 250/300/400/500/700. Neither has a 600, so every `font-weight:
-     600` this app ever wrote resolved to Bold anyway. The declarations now say
-     700 because that is what renders; there is no semibold step to reach for,
-     and asking for one only hides which of the two weights you actually got. */
-
-  /* The tracked apparatus register. Uppercase sans at body size does not exist
-     in this system: if it is uppercase, it is this size and this tracking. The
-     eyebrow — the one line naming the page above its title — tracks a hair
-     wider, which is the only sanctioned deviation. */
   --label-size: 0.72rem;
   --label-track: 0.12em;
   --eyebrow-track: 0.14em;
   --control-size: 0.88rem;
 
-  /* The two steps the ramp always had and never named. Both existed as literals
-     scattered across the stylesheet at 0.78 / 0.8 / 0.82rem and 0.9 / 0.92rem —
-     near-copies of one another, each a hair off the last, none of them written
-     down. Naming them is what stops the drift coming back.
-
-     --aside-size is serif: prose that is quieter than body without becoming
-     apparatus — the footnote, the Identify view's alternate-spelling line.
-     --meta-size is sans and sentence case, which is what separates it from
-     --label-size: the legend, a set head's string list, the feedback panel's
-     prompt and hint. Anything uppercase is --label-size and tracked; anything
-     sentence-case and small is this.
-     --micro-size is the annotation nested inside a control — a root chip's
-     numeral, a bar number. It is small because it rides something else. */
   --aside-size: 0.9rem;
   --meta-size: 0.8rem;
   --micro-size: 0.64rem;
 
-  /* ------------------------------------------------------------------ shapes
-     Squared and near-rectilinear. The radius grows only with distance from the
-     page: a control barely rounds, an overlay relaxes. --radius-full is
-     reserved for pitches (tone dots, legend swatches) and the help "i". */
-  --radius-xs: 2px;   /* every control: chips, buttons, inputs */
-  --radius-sm: 3px;   /* textarea; the site's quoted UI modules */
-  --radius-md: 8px;   /* help popover */
-  --radius-lg: 10px;  /* dialog */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
   --radius-full: 50%;
 
-  /* ------------------------------------------------------------------- focus
-     One focus treatment, always visible, never removed. Slate is a tone color
-     spent on a non-pitch purpose — a documented exception that predates the
-     Four Voices Rule and is not to be extended. */
   --focus-ring: 2px solid var(--third);
   --focus-offset: 2px;
 
-  /* ----------------------------------------------------------------- shadows
-     A surface gets a shadow if and only if it has physically left the page.
-     All four are tight, dark and heavily negative-spread — a thin dark seam
-     under an edge, never a soft ambient glow. A resting element gets none. */
-  --shadow-stuck: 0 8px 14px -10px rgba(0, 0, 0, 0.35);     /* stuck control bar */
-  --shadow-dropped: 0 16px 20px -14px rgba(0, 0, 0, 0.45);  /* phone control sheet */
-  --shadow-floating: 0 8px 22px -8px rgba(0, 0, 0, 0.35);   /* help popover */
-  --shadow-modal: 0 18px 44px -14px rgba(0, 0, 0, 0.45);    /* dialog, lightbox */
+  --shadow-stuck: 0 8px 14px -10px rgba(0, 0, 0, 0.35);
+  --shadow-dropped: 0 16px 20px -14px rgba(0, 0, 0, 0.45);
+  --shadow-floating: 0 8px 22px -8px rgba(0, 0, 0, 0.35);
+  --shadow-modal: 0 18px 44px -14px rgba(0, 0, 0, 0.45);
 
-  /* The scrim is dark under both themes, so what sits on it cannot follow
-     --paper — it is always the light paper value. This is the one place a
-     literal hex is correct rather than a theme token.
-
-     Deepened 0.38 → 0.6, 2026-07-27. The site's lightbox close × is the one
-     text drawn directly on the scrim, and 38% black over light paper composites
-     to a mid-gray the × measured 2.33:1 against — under the 3:1 WCAG 1.4.3
-     asks of even large text, with the --scrim-fg focus ring failing the same
-     way at 2.64:1. At 0.6 the × reads 4.59:1 at rest and 5.62:1 on hover and
-     focus, and stays above 3:1 even over a pure-white screenshot behind the
-     scrim. The app pays nothing for this: its only scrim is the feedback
-     dialog's backdrop, which carries no text — the page just dims further,
-     which is what a modal scrim is for. */
   --scrim: rgba(0, 0, 0, 0.6);
   --scrim-fg: #FAF6EF;
   --scrim-fg-soft: rgba(250, 246, 239, 0.85);
 
-  /* ------------------------------------------------------------------ motion
-     One easing curve. Exponential ease-out: fast departure, long settle. */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* ------------------------------------------------------------------ measure
-     --measure is the readable line length for prose on both surfaces. --rail is
-     the app's control-rail width at >=960px; the site quotes app UI modules at
-     exactly this width, which is why it is shared rather than app-local. */
   --measure: 42rem;
   --rail: 15.5rem;
 }
-/* /GENERATED:tokens */
 
-/* The site's own layout constants — the app has no page this wide and no
-   viewport gutter to keep, so these stay here rather than in the shared file. */
 :root {
   --page: 74rem;
   --gutter: 1.5rem;
 }
 
-/* ------------------------------------------------------------------ the ramp
-   The site speaks in a bigger register than the app, which DESIGN.md sanctions
-   — but a bigger register still has to be a register. These are the site's own
-   steps, declared here for the same reason --page is: the app has no banner, no
-   lead, and no plate heading, so none of them belongs in the shared file. What
-   IS shared it takes from there — --label-size, --control-size, --meta-size and
-   --micro-size are the app's, unchanged, and this block does not restate them.
-
-   *Extraction, 2026-07-27.* The app was snapped to a named ramp on this date and
-   the site was not, so it carried thirteen serif sizes and twenty-one literals,
-   six of which (0.92, 0.95, 0.98, 1.24, 0.82, 0.64) the app had just deleted by
-   name. The clusters could not carry different jobs: 1.06 / 1.00 / 0.98 sat
-   inside 8%, and .why's "lifted body" was 7.5% above body — a lift nobody could
-   see. Seven steps replace thirteen, and no two are closer than 11%. */
 :root {
-  --size-aside: 0.95rem;    /* prose quieter than body: the colophon, the footer,
-                               the atom's interval names. One step where three
-                               near-copies used to be. */
-  --size-body: 1.06rem;     /* the working prose of the plate columns */
-  --size-lead: 1.22rem;     /* the raised voice — the hero's opening paragraph
-                               and the two centered arguments. These were 1.24
-                               and 1.14 and are one role: prose set apart from
-                               the columns, one passage per movement. */
-  --size-name: 1.35rem;     /* a musical object named at display scale: the
-                               atom's four tone names, the wordmark. */
-  --size-plate: clamp(1.35rem, 2.1vw, 1.8rem);      /* h3 — a plate's heading */
-  --size-movement: clamp(1.85rem, 3.4vw, 2.75rem);  /* h2 — a movement opens */
-  --size-banner: clamp(2.1rem, 3.8vw, 3rem);        /* h1 — one per page */
+  --size-aside: 0.95rem;
+  --size-body: 1.06rem;
+  --size-lead: 1.22rem;
+  --size-name: 1.35rem;
+  --size-plate: clamp(1.35rem, 2.1vw, 1.8rem);
+  --size-movement: clamp(1.85rem, 3.4vw, 2.75rem);
+  --size-banner: clamp(2.1rem, 3.8vw, 3rem);
 
-  --size-action: 1rem;      /* the one filled action. Larger than the app's
-                               --control-size because it is the page's single
-                               call to action rather than one chip among forty. */
+  --size-action: 1rem;
 
-  /* --------------------------------------------------------------- measures
-     DESIGN.md: "a measure is set in characters of the face that will render it,
-     not in a number that sounds about right." So this page does not write down
-     a number — it writes down a character count and lets the width fall out.
-     Retune a step above and its column follows, which is the whole point.
-
-     --adv is Iowan's average advance over this page's own prose, measured in
-     Safari rather than assumed: 0.435–0.458em across nine blocks, against the
-     0.447 DESIGN.md derived from the app's. Georgia, which is what the majority
-     of a public site's visitors actually get, measured 0.428–0.452 over the same
-     blocks — so the counts below hold on Windows too, and the fallback does not
-     quietly become a different measure. Seravek needs its own constant; it is a
-     wider face. */
   --adv: 0.447;
   --adv-sans: 0.47;
 
-  --ch-read: 66;   /* continuous argument prose with nothing beside it */
-  --ch-hero: 55;   /* the hero lead — narrower, because a banner sits above it
-                      and the offer has to stay inside the card's own column */
+  --ch-read: 66;
+  --ch-hero: 55;
 
   --measure-read: calc(var(--ch-read) * var(--size-lead) * var(--adv));
   --measure-hero: calc(var(--ch-hero) * var(--size-lead) * var(--adv));
@@ -424,21 +164,11 @@
   --measure-aside: calc(var(--ch-read) * var(--size-aside) * var(--adv));
   --measure-note: calc(var(--ch-read) * var(--meta-size) * var(--adv-sans));
 
-  /* Measure and leading are one decision, never two. At 66 characters 1.6 is
-     comfortable; the aside step opens a little further because it is the same
-     count set four points smaller, which is the app's own argument for taking
-     its footnote to 1.72. */
   --prose-lh: 1.6;
   --aside-lh: 1.68;
   --prose-track: normal;
 }
 
-/* Light on dark is not the same read as ink on paper: Iowan is a moderate-
-   contrast old-style face and its hairlines thin in reverse, so the line needs
-   a little more air and the letters a little more room. The two themes are
-   declared peers everywhere else in this system; this is what being a peer
-   costs. Scoped to `screen` and declared twice, for the same reasons the
-   palette above is. */
 @media screen and (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) { --prose-lh: 1.66; --aside-lh: 1.74; --prose-track: 0.006em; }
 }
@@ -460,53 +190,15 @@ body {
   letter-spacing: var(--prose-track);
 }
 
-/* Serif is music, sans is apparatus — including inside a diagram. The app says
-   this twice (figure.chord svg text, .neck-scroll svg text) and the site said it
-   nowhere, so every numeral, note letter and mute × in the sixty-eight inline
-   diagrams inherited the serif from `body` and came out in a different voice
-   from the identical SVG in the app.
-
-   tabular-nums travels with it. DESIGN.md's Tabular Position Rule exempts the
-   serif side because "Iowan's figures are already tabular" — true of Iowan and
-   false of Georgia, whose defining trait is old-style text figures. A base-fret
-   numeral is a position, and on Windows these were about to be proportional
-   figures with 3, 4, 5, 7 and 9 hanging below the fret grid's baseline. The
-   page has exactly one kind of SVG, so the rule needs no scope. */
 svg text {
   font-family: var(--sans);
   font-variant-numeric: tabular-nums;
 }
 
-/* Windows High Contrast. forced-colors flattens fill and stroke along with the
-   text colors, and in these diagrams the fills ARE the content — the four tone
-   colors mean scale degrees, and a knocked-out "R" becomes invisible the moment
-   its dot and its letter are forced to the same CanvasText. The screenshots are
-   exempt by nature (a bitmap is never forced), and these figures are the same
-   thing drawn as markup: pictures of the app, not page furniture. So they keep
-   their own ink, exactly as the raster shots beside them do. The quoted UI
-   modules are the same case — display-only pictures whose ink-fill selection
-   would otherwise be stripped to nothing. Everything else on the page — prose,
-   headings, the real button, the focus ring — follows the reader's forced
-   palette, which is the point of the mode. */
 .fig svg, .atom-dot, .ui-module {
   forced-color-adjust: none;
 }
 
-/* Apparatus voice, stated once for the whole page. Uppercase sans in this
-   system is always small and tracked — there is no third register between this
-   and the serif. Every tracked line on the page is one of these five: the
-   version and copyright lines, a plate's note, a quoted UI module's label, the
-   instrument-cluster captions, and the atom's interval arithmetic. Each rule
-   further down adds only its own spacing.
-
-   "case" 1 is the app's, and the site had dropped it: several of these lines
-   carry punctuation drawn for lowercase, which sits at the wrong height inside
-   a line of capitals.
-
-   *Two members left this list, 2026-07-27.* `.plate-text .label` was dead —
-   the recipe named a plate eyebrow that no plate has — and the screenshot
-   captions are prose; see .shot-fig figcaption below for why uppercasing them
-   was a correctness bug rather than a style one. */
 .label,
 .plate-text .note,
 .ui-label,
@@ -522,18 +214,11 @@ svg text {
 }
 .label { margin: 0; }
 
-/* 700, not 600. Neither Iowan nor Seravek ships a semibold — DESIGN.md's weight
-   axis is 400/500/700 and the app was scrubbed of every 600 on 2026-07-27. On a
-   Mac these declarations always resolved to Bold anyway; the reason to say what
-   you mean is the fallback, where a variable serif would happily render a real
-   600 and the site's headings would come out a weight lighter than its own app. */
 h1, h2, h3 { font-weight: 700; letter-spacing: -0.01em; text-wrap: balance; margin: 0; }
 h1 { font-size: var(--size-banner); line-height: 1.12; }
 h2 { font-size: var(--size-movement); line-height: 1.18; }
 h3 { font-size: var(--size-plate); line-height: 1.25; }
 
-/* The default measure is the body step at the reading count. Every column that
-   wants a different one names it; none of them writes down a width. */
 p { margin: 0 0 1.1rem; max-width: var(--measure-body); text-wrap: pretty; }
 p:last-child { margin-bottom: 0; }
 em { font-style: italic; }
@@ -548,13 +233,6 @@ a { color: inherit; }
 }
 .skip:focus { left: 0.5rem; top: 0.5rem; }
 
-/* A heading that exists for the document outline, not the eye. The plate
-   series (movement IV) has no visible title — seven h3s under one rhythm IS
-   the composition, and that is settled — but without an h2 of their own the
-   seven fell under "The same chord, seven instruments" in the heading tree,
-   and a screen reader's outline filed every feature as a subsection of the
-   instruments movement. The standard clip recipe, not display:none, so the
-   heading stays in the accessibility tree. */
 .sr-only {
   position: absolute;
   width: 1px; height: 1px;
@@ -564,20 +242,11 @@ a { color: inherit; }
   white-space: nowrap;
 }
 
-/* The Slate Focus Rule, stated once. [tabindex] is in the list because the
-   screenshots are the only genuinely keyboard-operable content on this page:
-   the lightbox script promotes each one to tabindex="0" role="button", and an
-   img is neither an a nor a button, so a two-name selector missed every one of
-   them — the majority of the page's focus stops had no ring at all. */
 :where(a, button, [tabindex]):focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-offset);
 }
 
-/* ------------------------------------------------------------------- page
-   One three-column grid carries every movement: content sits in the middle
-   column, and anything that must reach a viewport edge claims the outer ones.
-   This is how a plate's screenshot bleeds right without negative margins. */
 .page {
   display: grid;
   grid-template-columns:
@@ -586,12 +255,9 @@ a { color: inherit; }
 .page > * { grid-column: 2; }
 .bleed-right { grid-column: 2 / 4; }
 
-/* --------------------------------------------------------------- movement I
-   The sheet. Sixty real voicings, at reference size, bleeding off the top and
-   sides, with the offer set into them on opaque paper. */
 .hero {
   position: relative;
-  min-height: 100vh;    /* fallback: svh is Safari 15.4+, below the app's floor */
+  min-height: 100vh;
   min-height: 100svh;
   display: flex;
   align-items: center;
@@ -600,16 +266,9 @@ a { color: inherit; }
   padding: 4rem var(--gutter);
 }
 
-/* Eight across, not twelve: at twelve the diagrams stop being diagrams and become
-   texture, and the argument depends on a stranger recognising them as real chord
-   shapes. Eight lands each figure near the reference size the app draws it at.
-   The field is taller than the hero on purpose — a contact sheet you can see the
-   whole of is not bleeding. */
 .sheet-field {
   position: absolute;
-  /* Bleeds off the top and sides; the bottom stops short instead, so the last
-     cropped row keeps 1.5rem of clean paper before the hero's heavy rule —
-     the same breathing room every other divider on the page gets. */
+
   inset: -2.5rem -2rem 1.5rem;
   overflow: hidden;
   z-index: 0;
@@ -619,24 +278,12 @@ a { color: inherit; }
   gap: 0.9rem 1.4rem;
   pointer-events: none;
 }
-/* The Same Plate Rule, enforced: every diagram on this page renders at its
-   natural geometry scaled by ONE factor, never stretched to fill a cell. A
-   fretted grid is 132–180 wide and a keyboard is 300; letting each fill the same
-   column would put two different string gaps on one sheet, which is exactly what
-   the app's engraving constants exist to prevent. Keyboards take two cells. */
+
 .sheet-field .fig { margin: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 .sheet-field .fig-keys { grid-column: span 2; }
 .sheet-field { --scale: 0.85; }
 .sheet-field svg { width: calc(var(--w) * var(--scale) * 1px); height: auto; display: block; }
-/* Round 2: captions on. Each figure names its chord — the field stops being
-   texture and becomes a hint of everything the app can name. Chord names are
-   music, so they set in the serif.
 
-   The caption rides the figure, so it scales with it. The field runs at 0.85,
-   then 0.8, then 0.66 as the viewport narrows; a fixed 0.82rem caption meant
-   that by the phone breakpoint the chord names were rendering half again as
-   large relative to the diagrams they name, and the field stopped reading as
-   one plate. Derived from the aside step so it is still a step and not a number. */
 .sheet-field figcaption {
   font-size: calc(var(--size-aside) * var(--scale));
   color: var(--ink-soft);
@@ -645,32 +292,24 @@ a { color: inherit; }
 
 .hero-card {
   position: relative;
-  z-index: 1;                 /* own stacking context, so ::before can sit under
-                                 the text but still above the sheet field */
+  z-index: 1;
   background: var(--paper);
   padding: 3rem 3.5rem 3rem 0;
   max-width: 38rem;
   margin-left: max(0px, calc((100vw - var(--page)) / 2));
 }
-/* The card is opaque paper and must read as a solid field cut out of the sheet,
-   so it extends past its own box to the left viewport edge and beyond top and
-   bottom. No gradient, no scrim, no blur — the separation is paper on paper. */
+
 .hero-card::before {
   content: "";
   position: absolute;
-  inset: -100vh 0 -100vh -100vw;   /* full height: a half-row of diagram fragments
-                                      floating above the wordmark reads as an
-                                      accident, not as bleed */
+  inset: -100vh 0 -100vh -100vw;
   background: var(--paper);
   z-index: -1;
 }
 
 .wordmark { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 2.2rem; }
 .wordmark img { width: 62px; height: 62px; display: block; }
-/* The icon PNG's squircle plate is paper — invisible on this paper page — so a
-   hairline traces it and the mark reads as an app icon, not a floating logo.
-   Geometry from marketing/brand/app-icon/make_icon.py: plate inset 82/1024,
-   corner radius 193/860 of the plate. */
+
 .app-tile { position: relative; display: inline-block; line-height: 0; }
 .app-tile::after {
   content: "";
@@ -680,37 +319,23 @@ a { color: inherit; }
   border-radius: 22.4%;
   pointer-events: none;
 }
-/* In dark the plate is not invisible — it is the brightest thing in the corner,
-   and --line has flipped to a dark value, so the hairline draws a dark ring on
-   a light tile: the inverse of its one job. The icon is a picture of the app's
-   real icon, which does not theme (it doesn't in the Dock either), so the fix
-   is to retire the tracing line rather than to recolor it. Declared twice for
-   the same reason the palette is — see the token block above, and scoped to
-   `screen` for the same reason too: paper always gets the light plate, so the
-   tile is invisible there and the hairline is doing its job again. That scope
-   was missing while `?theme=dark` was inert on this page and nothing could
-   reach it; adding the override made it reachable, which is the whole argument
-   for the token block's own `screen` scope arriving one line late. */
+
 @media screen and (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .app-tile::after { display: none; }
 }
 @media screen {
   :root[data-theme="dark"] .app-tile::after { display: none; }
 }
-/* The 0.01em that used to sit here was the only positive micro-tracking on
-   either surface — this system's tracking values are -0.01em for display and
-   0.12/0.14em for apparatus, and nothing in between. At this size Iowan's own
-   fit is the right one. */
+
 .wordmark span { font-size: var(--size-name); font-weight: 700; }
 
 .lead {
   font-size: var(--size-lead);
   color: var(--ink-soft);
   margin: 1.4rem 0 2.2rem;
-  max-width: var(--measure-hero);   /* 55 characters */
+  max-width: var(--measure-hero);
 }
 
-/* One filled action per surface — the Ink Selection Rule, spent here. */
 .btn {
   display: inline-block;
   font-family: var(--sans);
@@ -724,16 +349,7 @@ a { color: inherit; }
   text-decoration: none;
   cursor: pointer;
 }
-/* No hover restyle, deliberately. This used to invert to transparent — the
-   only hover on either surface that did more than darken a border, and the
-   exact opposite of what fill means in this system. The app's own filled
-   action (the dialog's Send) holds its fill on hover, and a border-darken
-   is invisible under a border that matches the fill; the cursor and the
-   focus ring are the affordances. */
 
-/* Sans, sentence case, small — which is exactly what DESIGN.md calls Meta, and
-   the token was already there. The measure is the sans one: Seravek is a wider
-   face than Iowan and 66 characters of it is not 66 characters of this page. */
 .btn-note {
   font-family: var(--sans);
   font-size: var(--meta-size);
@@ -741,54 +357,30 @@ a { color: inherit; }
   margin: 0.85rem 0 0;
   max-width: var(--measure-note);
 }
-/* The platform branch, decided by the head script above. The note is hidden by
-   default so no-JS and no-signal both land on the safe state — button shown —
-   and only `.not-mac` flips the pair. Nothing needs `hidden` or an !important
-   fight with it: `.not-mac [data-download]` is (0,2,0) and outranks `.btn`'s own
-   display on its own. */
+
 [data-mac-note] { display: none; }
 .not-mac [data-mac-note] { display: block; }
 .not-mac [data-download] { display: none; }
-/* Spoken register, not apparatus — the LYFP ".aside" recipe: body voice,
-   sentence case with periods, full ink, no tracking. The small-caps treatment
-   was over-reading a spoken line as a label. */
+
 .kicker {
   font-size: var(--size-body);
   color: var(--ink);
   margin: 2.4rem 0 0;
 }
-/* The headline's double reading, kept quiet: the parenthetical drops to soft
-   ink so "find your voice" and "find your voicing" both read at a glance. */
+
 .voicing-ing { color: var(--ink-soft); }
 
-/* -------------------------------------------------------------- movement II
-   The held breath. One column, no imagery, a great deal of air. Text blocks
-   with no image are centered on the page — this is the problem statement, and
-   it should sit dead center in the reader's eye. The paragraphs stay
-   left-aligned inside the centered measure; only the block and its heading
-   center. */
-/* The section stays wide enough for the heading to hold one line — "Is that
-   chord spelled right?" is ~39rem set at the h2 ceiling — while the prose
-   inside it takes the reading measure and centres on the same axis. Heading and
-   column end up within a few characters of one another, which is what makes
-   them read as one block rather than as a title floating over a paragraph. */
 .why { padding: 8rem 0 7rem; max-width: var(--measure); margin: 0 auto; }
 .why h2 { margin-bottom: 1.6rem; text-align: center; }
 .why p, .closer p {
   font-size: var(--size-lead);
-  max-width: var(--measure-read);   /* 66 characters, down from 82 */
+  max-width: var(--measure-read);
   margin-left: auto;
   margin-right: auto;
 }
 
 .rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
 
-/* ------------------------------------------------------------- movement III
-   One chord, four tunings, one engine. Text at measure on the left; the
-   instrument cluster on the right — three fretted grids in a tight row, the
-   keyboard larger beneath them. The two kinds keep roughly honest relative
-   scale (a keyboard IS wider than a grid) without pretending to share one
-   zoom across rows. */
 .instruments {
   display: grid;
   grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
@@ -810,22 +402,10 @@ a { color: inherit; }
 .seven-up svg { width: calc(var(--w) * var(--scale) * 1px); height: auto; margin: 0 auto; display: block; }
 .seven-up figcaption { margin-top: 0.55rem; }
 
-.movement { padding: 7rem 0 5.5rem; }   /* bottom matches the first plate's 5.5rem top */
-/* One heading-to-first-paragraph interval across the prose movements — the
-   same 1.6rem the .why heading uses. */
+.movement { padding: 7rem 0 5.5rem; }
+
 .instruments-text h2 + p, .print-text h2 + p, .closer h2 + p { margin-top: 1.6rem; }
 
-/* -------------------------------------------------------------- movement IV
-   The plates. A fixed spine: text always left at measure, screenshot always
-   breaking to the right viewport edge. No alternating zigzag — one rhythm,
-   seven times, so the plates read as a series rather than a feature list. */
-/* Both columns start at the plate's top line. Centred, the text column floated
-   to the vertical middle of whatever the exhibit happened to be — so a plate's
-   heading landed hundreds of pixels below the top of the screenshot it names,
-   and the reader met an untitled picture of a dense app before being told what
-   it was. It also meant the horizon moved from plate to plate with the height
-   of the capture, which is the app-side Fixed Rhythm Rule in the negative:
-   vertical rhythm must not depend on content length. */
 .plate {
   display: grid;
   grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
@@ -837,46 +417,21 @@ a { color: inherit; }
 .plate-text h3 { margin-bottom: 1.2rem; }
 .plate-text .note { margin: -0.7rem 0 1.2rem; }
 
-/* Extracted UI modules — a section of the app's control rail quoted at the
-   bottom of a plate's text column. Real HTML in the app's own chip vocabulary
-   (generate-figures.mjs emits the contents from the theory engine), not a
-   screenshot crop — the same chips, borders and ink-fill selection the app
-   draws. Display-only: spans, not buttons. */
 .ui-module { margin-top: 2rem; }
 .ui-label { display: block; margin-bottom: 0.55rem; }
-/* Each .ui-chips is one FIXED row — the generator sets the breaks and the
-   track count (--cols) so the module lays out like the app's rail: view list
-   two-wide, quality 2×4, key matrix four-wide with the Major/Minor pair
-   spanning the same width below it. Equal tracks make every chip in a module
-   the same size, as in the app; the module itself holds the rail's 15.5rem
-   width. `.ui-wide` (degrees) runs the full text column instead. */
-/* A hairline frame makes the quote unmistakably a module rather than loose
-   chips. Same 1px on every module, as a rule would be in the app; the
-   padding is added outside the 15.5rem so the chips keep the rail's width. */
+
 .ui-module {
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   padding: 0.8rem 0.9rem 0.9rem;
-  /* --rail is the app's own control-rail width, shared through tokens.css: the
-     chips inside a quoted module are exactly as wide as they are in the app,
-     with the frame's padding and hairline added outside it. */
+
   max-width: calc(var(--rail) + 1.8rem + 2px);
 }
 .ui-module.ui-wide { max-width: none; }
 .ui-chips { display: grid; grid-template-columns: repeat(var(--cols, 2), 1fr); gap: 0.3rem; }
 .ui-chips + .ui-chips { margin-top: 0.3rem; }
 .ui-chips.ui-group { margin-top: 0.55rem; }
-/* The app's chip, quoted exactly: same sans, same size, same hairline border,
-   same 2px radius, same padding and min-width. Display-only — a span, not a
-   button — so it carries no hover, focus or pressed state.
 
-   pointer-events: none on the module is the other half of "display-only". A
-   span carries no behaviour, but it still takes the cursor: you got a text
-   I-beam over something that looks exactly like a control and, on three of
-   these, visibly changes its own selection while you watch. PRODUCT.md's line
-   is that on-page chords are pictures of the app and never staged as an
-   interactive demo — so the modules refuse the pointer outright, and the first
-   thing this page offers a visitor is never a click that does nothing. */
 .ui-module { pointer-events: none; }
 .ui-chip {
   font-family: var(--sans);
@@ -890,61 +445,27 @@ a { color: inherit; }
   padding: 0.32rem 0.5rem;
   text-align: center;
 }
-/* The app's chip carries `min-width: 2.4rem` so a single-character root stays a
-   comfortable *touch target*. A quoted chip is a picture — `pointer-events: none`
-   two rules up — so it has no target to protect, and the floor did nothing here
-   but set a width the column could not always pay.
 
-   It could not, on a phone. Seven chips at the 2.4rem floor plus six gaps demand
-   298px; the plate column at 320px offers 226. `.plate { overflow: hidden }` then
-   sheared 72px off the Degrees module and 28px off CAGED's Highlight — silently,
-   with no scrollbar and no document overflow to notice, so the page looked fine
-   and was missing content. What it cut was the `VI` and `VII` chips, on the plate
-   whose own caption reads "every root shows its numeral: the VI chord is C♭",
-   beside a screenshot showing exactly that.
-
-   The floor is inert at every width where the module fits, because
-   `repeat(var(--cols), 1fr)` already makes the chips equal — the grid was doing
-   the work the min-width was being credited for. Removing it costs nothing and
-   lets a module narrow to its column instead of overflowing it. */
 .ui-chip { min-width: 0; }
 .ui-chip.on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 .ui-sub {
   display: block;
-  font-size: var(--micro-size);   /* the token, not its value re-typed */
+  font-size: var(--micro-size);
   color: var(--ink-soft);
 }
 .ui-chip.on .ui-sub { color: inherit; opacity: 0.75; }
-/* ---- The module loops (the animate round). Three quoted controls cycle
-   their selection — Quality through the eight qualities, the CAGED
-   Highlight through the five shapes, the scales Show row through its
-   layers — dramatizing the actual mechanism, which is the one expressive
-   motion DESIGN.md sanctions for this surface. Pure CSS: each chip's --k
-   (set by generate-figures.mjs) times its turn; each turn holds 3s and
-   dissolves over ~350ms in the app's own easing, adjacent turns
-   cross-fading. Script only pauses a loop while it is offscreen; with
-   reduced motion (or no CSS animation) the static .on chip stands. */
-/* The synced plate slideshows: real captures of the states the module cycle
-   names, stacked on a base frame that is also the still. Frames sit in cycle
-   order, so an incoming frame always covers the outgoing one (no paper
-   flash); each holds until covered, and the last fades out to the base. */
-/* The stack must be exactly the base shot's size — the shot deliberately
-   overflows the plate column (the right-bleed), so the div cannot take the
-   column's width or the inset frames would render smaller than the base. */
+
 .shot-cycle { position: relative; width: max-content; }
 .shot-cycle .frame { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
 .shot-cycle .frame img { width: 100%; height: auto; display: block; }
 @media screen and (prefers-reduced-motion: no-preference) {
-  .ui-anim .ui-chip.on {          /* the static selection yields to the loop */
+  .ui-anim .ui-chip.on {
     background: transparent; border-color: var(--line); color: var(--ink);
   }
   .ui-anim .ui-chip {
     animation-iteration-count: infinite;
     animation-timing-function: var(--ease);
-    /* Inert while the loop runs, because an animation outranks a transition.
-       It exists for the single state change at the end, when the animation is
-       dropped and the module takes its real selection back — that one moment
-       fades rather than snaps, on the app's own colour-fade duration. */
+
     transition: background-color 160ms var(--ease),
                 border-color 160ms var(--ease),
                 color 160ms var(--ease);
@@ -952,12 +473,7 @@ a { color: inherit; }
   .shot-cycle-8 .frame { animation: frame-cycle-8 24s var(--ease) infinite; animation-delay: calc((var(--k) - 8) * 3s); }
   .shot-cycle-6 .frame { animation: frame-cycle-6 18s var(--ease) infinite; animation-delay: calc((var(--k) - 6) * 3s); }
   .shot-cycle-3 .frame { animation: frame-cycle-3 9s var(--ease) infinite; animation-delay: calc((var(--k) - 3) * 3s); }
-  /* A frame fades in on the chip's ramp, then holds ~350ms past its slot so
-     its successor fades in over it before it drops. The Quality plate's base
-     is its k=1 state (Maj 7, the module's declared selection), so its frames
-     cover every slot EXCEPT 1 — during that slot, and at rest, no frame is
-     opaque and the base shows through, which is the same contract the CAGED
-     stack keeps with its k=0 "All". */
+
   @keyframes frame-cycle-8 {
     0%, 100% { opacity: 0; }
     1.5%, 14% { opacity: 1; }
@@ -975,13 +491,7 @@ a { color: inherit; }
   }
   .anim-offscreen .ui-chip,
   .anim-offscreen .shot-cycle .frame { animation-play-state: paused; }
-  /* One round, then rest. Every keyframe set above is off at both 0% and 100%,
-     so a loop stopped at exactly one period stops where it started: no chip
-     selected, every frame transparent, the base still showing underneath. All
-     that has to be restored is the module's declared selection, which the rule
-     at the top of this block suppresses only for as long as the loop is the
-     thing driving it. Dropping the animation outright rather than pausing it
-     also lets the transition above carry that last change. */
+
   .anim-done .ui-chip,
   .anim-done .shot-cycle .frame { animation: none; }
   .anim-done .ui-anim .ui-chip.on {
@@ -990,8 +500,7 @@ a { color: inherit; }
   .ui-cycle-8 .ui-chip { animation-name: chip-cycle-8; animation-duration: 24s; animation-delay: calc((var(--k) - 8) * 3s); }
   .ui-cycle-6 .ui-chip { animation-name: chip-cycle-6; animation-duration: 18s; animation-delay: calc((var(--k) - 6) * 3s); }
   .ui-cycle-3 .ui-chip { animation-name: chip-cycle-3; animation-duration: 9s; animation-delay: calc((var(--k) - 3) * 3s); }
-  /* One keyframe set per cardinality: on for 1/N of the loop, with the
-     ~350ms ramps landing so chip k fades out exactly while k+1 fades in. */
+
   @keyframes chip-cycle-8 {
     0%, 14%, 100% { background: transparent; border-color: var(--line); color: var(--ink); }
     1.5%, 12.5% { background: var(--ink); border-color: var(--ink); color: var(--paper); }
@@ -1005,31 +514,9 @@ a { color: inherit; }
     3.9%, 33.3% { background: var(--ink); border-color: var(--ink); color: var(--paper); }
   }
 }
-/* The shots run wider than the space left for them and bleed off the right edge,
-   clipped by the plate. Shrinking a 1440pt app window to fit an 864pt column
-   makes 11px app text render at 7px — a picture of the product nobody can read,
-   which is the one thing these plates exist to avoid. Running large and letting
-   the page crop it is the same bleed language the hero uses, and it never
-   misrepresents the app: what you see is the real window at near-full size. */
+
 .plate { overflow: hidden; }
-/* Two display sizes, not N: a solo shot runs large; stacked or quadded shots
-   drop a step so a contrast reads as one exhibit.
 
-   The captions are music, not apparatus, and putting them in the tracked
-   uppercase register was a correctness bug rather than a style one. Six of the
-   fourteen name chords or degrees, and uppercasing a chord name changes what it
-   says: "The same Dm as a Dm7" shipped as THE SAME DM AS A DM7, and
-   "I–vi–IV–V in G" shipped as I–VI–IV–V IN G — a different progression, because
-   lowercase numerals mean minor chords and this page's own copy teaches that
-   convention four movements earlier. Asus4, Dmaj7, Cmaj7 and E♭ minor were
-   flattened the same way. The page's argument is that chord books and tab sites
-   get spelling wrong routinely; it cannot be making the same mistake under its
-   own screenshots.
-
-   So they set as what they are: prose a musician reads, containing chord names,
-   which the Two Voices Rule puts in the serif. The instrument-cluster captions
-   ("Guitar", "Baritone Guitar") stay in the apparatus list above — those are
-   labels, not sentences. */
 .shot { display: block; width: 1100px; max-width: none; height: auto; }
 .shot-fig { margin: 0; }
 .shot-fig figcaption {
@@ -1041,31 +528,14 @@ a { color: inherit; }
 }
 .shot-pair { display: grid; gap: 2.2rem; }
 .shot-pair .shot { width: 800px; }
-/* Hover-grow + click-to-lightbox, with a true overlay (the one place a heavy
-   shadow is honest — the image has left the page).
 
-   The 2% grow was removed once under the Border-Not-Fill Rule and reinstated
-   by Michael on 2026-07-27, and the reinstatement is now the rule's own
-   documented exception (see DESIGN.md): the rule's signal is a border
-   darkening, and a screenshot has no border to darken — so on the one element
-   whose hover cannot speak the system's language, the grow and the zoom-in
-   cursor are what mark a picture as the one thing on this page a click
-   enlarges. Everything interactive elsewhere still moves nothing.
-
-   Both affordances are gated on role="button", which the lightbox script sets
-   on the same pass that attaches the click handler. Unconditional, they
-   promised an interaction to a reader with JavaScript off, who would then
-   click a picture that does nothing — the affordance has to appear only once
-   it is true. */
 .shot[role="button"], .pages img[role="button"] { cursor: zoom-in; }
 .shot[role="button"], .pages img[role="button"], .shot-cycle[data-zoom] {
   transition: transform 0.2s var(--ease);
 }
 .shot[role="button"]:hover, .pages img[role="button"]:hover,
 .shot-cycle[data-zoom]:hover { transform: scale(1.02); }
-/* A slideshow stack grows as one unit — the script marks the .shot-cycle and
-   the base shot inside it yields, or the base would scale under frames that
-   stayed put and the two would part company at the edges mid-fade. */
+
 .shot-cycle[data-zoom] .shot,
 .shot-cycle[data-zoom] .shot:hover { transition: none; transform: none; }
 @media (prefers-reduced-motion: reduce) {
@@ -1085,12 +555,7 @@ a { color: inherit; }
   cursor: pointer;
 }
 .lightbox.active { display: flex; }
-/* The page must not pan behind an aria-modal overlay: a stray scroll (trackpad
-   momentum, a space bar) moved the sheet under the dimmed screenshot, and the
-   reader closed the lightbox onto a different place than they left. The class
-   rides :root, set and removed by the same script that opens the overlay.
-   Screen-scoped: overflow:hidden on the root truncates WebKit's print output
-   to a single page, so ⌘P with the lightbox up must not inherit it. */
+
 @media screen {
   :root.lightbox-open, :root.lightbox-open body { overflow: hidden; }
 }
@@ -1099,8 +564,7 @@ a { color: inherit; }
   max-height: 100%;
   box-shadow: var(--shadow-modal);
 }
-/* The viewport is viewport-fit=cover, so on a notched phone in landscape this
-   corner is under the sensor housing unless it is pushed clear of the inset. */
+
 .lightbox-close {
   position: absolute;
   top: max(0.8rem, env(safe-area-inset-top));
@@ -1108,31 +572,22 @@ a { color: inherit; }
   background: none;
   border: none;
   color: var(--scrim-fg-soft);
-  font-family: var(--sans);   /* a dismiss mark is apparatus; it was inheriting the serif */
+  font-family: var(--sans);
   font-size: 2rem;
   line-height: 1;
   padding: 0.5rem;
   cursor: pointer;
 }
 .lightbox-close:hover { color: var(--scrim-fg); }
-/* The Slate Focus Rule's second documented exception (see DESIGN.md): the ring
-   keeps its geometry and takes --scrim-fg, because this is the one control on
-   the dark scrim rather than on paper, and slate there is close to invisible. */
+
 .lightbox-close:focus-visible { outline: 2px solid var(--scrim-fg); outline-offset: var(--focus-offset); }
 
-/* --------------------------------------------------------------- movement V
-   Paper. The register drops; the object is a page, not a window. */
-/* 24rem, not 20: at 20 this was the one prose column on the page under the
-   45-character floor — 42 in Iowan and ~37 in Georgia, where a return sweep
-   every seven words starts costing more than the wider column would. It is now
-   the same width as the plate and instrument columns, so all three of the
-   page's text columns are one measure. */
 .print {
   display: grid;
   grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
   gap: 4.5rem;
   align-items: start;
-  padding: 5.5rem 0 7rem;   /* top matches the last plate's 5.5rem bottom */
+  padding: 5.5rem 0 7rem;
   border-top: 1px solid var(--line);
 }
 .pages {
@@ -1142,10 +597,7 @@ a { color: inherit; }
   gap: 2rem;
   align-items: start;
 }
-/* The one place on the page that is pure white, and the one place it belongs:
-   these are photographs of paper, and DESIGN.md's Warm Field Rule exempts the
-   printed sheet because paper supplies its own warmth. A hairline draws the
-   page edge rather than letting a shadow imply it. */
+
 .pages img {
   display: block;
   width: 100%;
@@ -1153,16 +605,9 @@ a { color: inherit; }
   border: 1px solid var(--line);
 }
 
-/* -------------------------------------------------------------- movement VI
-   The atom. The zoom completes on one chord and its four tones. This is the
-   densest passage on the page and the last thing before the download. */
-/* Centered like movement II: this is the engine under the hood, not a user
-   feature with a screenshot, so it reads as an aside in the method-book voice —
-   centered heading, centered measure, the atom held at the middle of the page. */
 .closer { border-top: 2px solid var(--ink); padding: 7rem 0 6rem; }
 .closer h2 { text-align: center; }
-/* The raised voice, shared with movement II — see .why p above, which this
-   section's paragraphs are set with. */
+
 .atom {
   display: grid;
   grid-template-columns: auto auto;
@@ -1174,10 +619,7 @@ a { color: inherit; }
 .atom .fig { margin: 0; }
 .atom { --scale: 1.35; }
 .atom .fig svg { width: calc(var(--w) * var(--scale) * 1px); height: auto; display: block; margin: 0 auto; }
-/* The chord outranks its own tones. This was 1.3rem against the tone names'
-   1.35 — the subject of the movement set smaller than its four components, and
-   the two separated by 3.8% and a weight neither face ships. It now takes the
-   plate step, so F♯maj7 reads a clear rank above F♯, A♯, C♯ and E♯. */
+
 .atom .fig figcaption {
   font-family: var(--serif);
   font-size: var(--size-plate);
@@ -1196,34 +638,20 @@ a { color: inherit; }
 .atom-dot { grid-row: 1 / 4; display: block; width: 56px; height: 56px; }
 .atom-name { font-size: var(--size-name); font-weight: 700; }
 .atom-role { font-size: var(--size-aside); color: var(--ink-soft); }
-/* The atom's interval arithmetic ("4 semitones from the root") — apparatus, so
-   it takes the tracked register with no spacing of its own. */
 
-/* ------------------------------------------------------------- movement VII
-   The close. Anchored and symmetrical — the only centered passage on the page. */
 .download {
   text-align: center;
-  padding: 6rem 0 4rem;   /* top matches the closer's 6rem bottom */
+  padding: 6rem 0 4rem;
   border-top: 1px solid var(--line);
 }
 .download p { margin-left: auto; margin-right: auto; }
-/* The Balanced Title Rule's reasoning, applied to the one multi-line note on
-   the page: a centred line that wraps to "an update." on its own reads as a
-   mistake. The measure is now the sans one (--measure-note, 66 characters of
-   Seravek) rather than the body's 42rem, which at this size was 115 — balance
-   was carrying a measure it should never have been handed, and only because
-   the copy happened to stay short. */
+
 .download .btn-note { text-wrap: balance; margin-left: auto; margin-right: auto; }
 .download img.icon { width: 160px; height: 160px; display: block; }
-.download .app-tile { margin-bottom: 2rem; }   /* section is text-align:center, so inline-block self-centers */
+.download .app-tile { margin-bottom: 2rem; }
 .download h2 { margin-bottom: 1rem; }
 .download .btn { margin-top: 1.6rem; }
 
-/* The page's closing stack ran 1.06 → 0.82 → 0.72 → 0.82 → 0.98 → 0.92: six
-   registers inside a screen, three of them within 8% of each other, and nothing
-   in the sequence said which line mattered more. It now descends once and stays
-   down — body for the offer, meta for the two notes about it, the tracked label
-   for the version stamp, and this aside step for everything after the fold. */
 .colophon {
   max-width: var(--measure-aside);
   margin: 5rem auto 0;
@@ -1234,37 +662,22 @@ a { color: inherit; }
 }
 .colophon h3 { color: var(--ink); font-size: var(--size-name); line-height: 1.25; margin-bottom: 1rem; }
 .colophon p { max-width: none; margin-bottom: 1rem; }
-/* Two asides in the same register are one closing suite: the second sits at
-   3rem, not the 5rem that separates the suite from the version stamp above. */
+
 .colophon + .colophon { margin-top: 3rem; }
-/* The footer carries the privacy facts — below the hairline, above the
-   copyright, in the quiet register they belong in. */
+
 footer {
   text-align: center;
-  padding: 4rem 0;   /* the download section's 4rem bottom mirrors this top */
+  padding: 4rem 0;
   border-top: 1px solid var(--line);
 }
 footer p {
-  max-width: var(--measure-aside);   /* was 34rem, which at this size was 83 characters */
+  max-width: var(--measure-aside);
   margin: 0 auto 0.85rem;
   color: var(--ink-soft);
   font-size: var(--size-aside);
   line-height: var(--aside-lh);
 }
 
-/* ----------------------------------------------------------------- motion
-   The page's authored moment, and DESIGN.md's sanctioned marketing exception:
-   the tone dots ink themselves onto the sheet as it loads, the way a diagram
-   assembles from its computed parts. --i is the figure's index in the field,
-   written by generate-figures.mjs.
-
-   This used to claim "nothing else on this page moves", which stopped being
-   true when the quoted modules and the plate slideshows arrived. The question
-   that raised against the Stillness Rule is now settled, not live: every loop
-   runs ONE visible round and rests on its declared selection (the script's
-   .anim-done, counted in visible milliseconds), reduced-motion readers get the
-   still page outright, and a no-JS reader — who can never receive .anim-done —
-   gets the same still via the noscript block at the end of the stylesheet. */
 @keyframes ink-in {
   from { opacity: 0; transform: scale(0.72); }
   to   { opacity: 1; transform: scale(1); }
@@ -1280,32 +693,15 @@ footer p {
   .sheet-field circle { animation: none; }
 }
 
-/* ------------------------------------------------------------- responsive
-   Two breakpoints, content-driven rather than borrowed: 1099px is where the
-   plate's 24rem text column and a legible screenshot stop fitting side by side,
-   and 640px is where the instrument cluster stops fitting three across. The app
-   reshapes at 960/640 instead — its sheet is 60rem where this page is 74rem, so
-   the side-by-side breaks later there. The 640 is genuinely shared.
-
-   Every grid that collapses to one column here declares minmax(0, 1fr), not a
-   bare 1fr. A bare 1fr is minmax(AUTO, 1fr), so the track inflates to the
-   min-content width of its widest child — and these tracks hold app screenshots
-   drawn at 800-1100px. The wide rules above already guard this way; the
-   collapsed rules must too, or one oversized child silently widens the page and
-   .plate's own overflow:hidden shears the prose beside it. */
 @media (max-width: 1099px) {
   .hero { min-height: auto; padding-top: 3rem; padding-bottom: 0; align-items: stretch; flex-direction: column; }
-  /* The field follows the offer here rather than preceding it: the card is
-     second in source order because at wide sizes it sits ON the sheet, so on a
-     phone it has to be pulled back to the top or the page opens on a wall of
-     diagrams with no headline. The field becomes a band, clipped — still
-     bleeding, just in one direction. */
+
   .sheet-field {
     position: static; inset: auto; order: 1;
     margin: 2.5rem -2rem 0;
     grid-template-columns: repeat(5, 1fr);
     gap: 0.8rem 1.1rem;
-    max-height: 52vh;   /* same fallback pair as the hero */
+    max-height: 52vh;
     max-height: 52svh;
     overflow: hidden;
   }
@@ -1313,17 +709,12 @@ footer p {
   .hero-card { max-width: none; padding: 0 0 1rem; margin-left: 0; }
   .hero-card::before { display: none; }
   .plate { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; padding: 4rem 0; }
-  /* A bled plate spans the middle column AND the right gutter, which is what
-     lets its screenshot reach the viewport edge. Stacked, the text column
-     inherits that span and its prose runs flush to the edge with a gutter still
-     on the left. The shot keeps the bleed; the text takes the gutter back. */
+
   .plate.bleed-right .plate-text { padding-right: var(--gutter); }
   .shot { width: 100%; }
-  /* .shot-pair .shot outranks the rule above (0,2,0 against 0,1,0), so without
-     this the two paired plates keep an 800px image inside a phone column and
-     inflate the track. This is the specificity, not the width, doing the damage. */
+
   .shot-pair .shot { width: 100%; }
-  .shot-cycle { width: 100%; }   /* .shot is 100% here, so the stack follows the column */
+  .shot-cycle { width: 100%; }
   .print { grid-template-columns: minmax(0, 1fr); gap: 3rem; padding: 5rem 0; }
   .pages { gap: 1.2rem; }
   .atom { grid-template-columns: minmax(0, 1fr); gap: 3rem; justify-items: center; }
@@ -1335,103 +726,41 @@ footer p {
 }
 
 @media (max-width: 640px) {
-  /* The ramp steps down rather than `body` alone, so the raised voice stays a
-     step above body and every derived measure follows without being restated. */
+
   :root { --size-body: 1rem; --size-lead: 1.14rem; }
   .sheet-field { grid-template-columns: repeat(3, 1fr); }
-  /* The instrument cluster goes two across, not three shrunk further. Three
-     fixed-geometry grids plus their gaps measure ~390px at the old 0.72 — wider
-     than a phone column, so the row pushed the whole document sideways. Two
-     across fits with room to spare, which buys the figures a LARGER scale than
-     they had while overflowing: 153px per fretted grid against the old 130px.
-     Fewer per row, each one bigger, is the same trade the plates make. */
+
   .seven-up { grid-template-columns: repeat(2, minmax(0, 1fr)); --scale: 0.85; }
   .seven-up .fig-keys { --scale: 1.05; }
-  /* The Same Plate Rule holds: one scale factor for the row, and the cap below
-     only ever engages on a viewport narrower than the guard at the end of this
-     block, where it would shrink every figure by the same ratio anyway. */
+
   .seven-up svg { max-width: 100%; }
   .sheet-field { --scale: 0.66; }
   .atom-tones { grid-template-columns: 1fr; gap: 1.6rem; }
-  /* The printed pages go one up. Side by side on a phone they land at ~170px
-     each — two grey rectangles, which is the whole of movement V's argument
-     reduced to nothing. One at full column width is a photograph of a page. */
+
   .pages { grid-template-columns: minmax(0, 1fr); }
   .download img.icon { width: 120px; height: 120px; }
 }
 
-/* Another content-driven guard: the h1's authored break holds only while its
-   longer half — "A chord reference that helps you", 32 characters at the
-   banner's 2.1rem floor, ~480px in Iowan and about the same in Georgia —
-   still fits between the gutters. Below ~530px that half wraps on its own,
-   and the <br> turned two balanced lines into a ragged three-line stack that
-   text-wrap: balance could do nothing about, because the forced break outranks
-   it. With the break removed, balance sets the whole headline evenly; above,
-   the break keeps the line ending where the sense does ("…helps you / find
-   your voice(ing)"), which is the reading the soft-ink parenthetical needs. */
 @media (max-width: 530px) {
   .hero-card h1 br { display: none; }
 }
 
-/* Small phones. The instrument cluster is the one row on the page whose width
-   is set by fixed diagram geometry rather than by text, so it needs its own
-   content-driven guard: below ~374px the two-across row at 0.85 would start
-   hitting the cap above. Dropping the factor keeps every figure at one scale. */
 @media (max-width: 374px) {
   .seven-up { --scale: 0.66; }
   .seven-up .fig-keys { --scale: 0.9; }
 }
 
-/* -------------------------------------------------------------------- print
-   Paper is a first-class rendering in this product; the site should not be the
-   one surface that forgets it. The sheet field is apparatus and goes away. */
 @media print {
   .hero { min-height: auto; border-bottom-width: 1px; }
-  /* .lightbox: printing with the overlay open would otherwise put the fixed
-     scrim and its screenshot on top of page one. The reader asked to print
-     the page, not the preview. */
+
   .sheet-field, .skip, .lightbox { display: none; }
   .hero-card { max-width: none; margin: 0; }
-  /* .instruments belongs in this list and had been left out of it. Every other
-     two-column movement collapses here; that one kept its 24rem text column and
-     4rem gap, and handed the seven-instrument cluster whatever was left — about
-     380px for a row that measures ~500. The page then sliced the third column
-     down the middle: "UKUL", "BARITON", half a ukulele, and a keyboard running
-     off the edge. Nothing needed rescaling; the row fits its own scale at full
-     width, which is what the other four movements already get. */
+
   .plate, .print, .atom, .instruments { grid-template-columns: 1fr; gap: 1.5rem; }
   .movement, .plate, .why, .closer, .download { padding: 1.5rem 0; }
   .shot, .print img { max-width: 34rem; }
-  .shot-cycle { max-width: 34rem; }   /* keep the stack on the capped shot size */
+  .shot-cycle { max-width: 34rem; }
 
-  /* Print engines drop backgrounds by default, and this system says "selected"
-     and "primary" with an ink fill and paper-coloured text — so both of them
-     printed as #FAF6EF on white, at 1.08:1. Invisible.
-
-     The rule that used to sit here restated `.btn`'s own border verbatim, which
-     changed nothing: somebody saw the fill drop and fixed the half that was
-     already correct.
-
-     Both take the same answer: keep the fill, and say so. print-color-adjust is
-     the Paper Parity Rule's own remedy for anything carrying meaning in colour,
-     already spent on the app's legend swatches, and it makes the printed page
-     identical whether or not the reader has "Print backgrounds" enabled.
-
-     A ghost button was the first fix here, and it was wrong. It only looked
-     right against the backgrounds-off default. With backgrounds ON — which is
-     how this page was actually printed and reviewed — the filled button was
-     already correct, and replacing it with an outline would have changed a page
-     nobody had asked to change. Forcing the fill repairs the broken
-     configuration without touching the working one, and the Ink Selection Rule
-     does not get an exception on paper.
-
-     The selected chip is the one that could not be left alone in either
-     configuration. Losing its fill did not merely hide the selection, it
-     inverted it: the chosen chip went pale while its four unselected neighbours
-     printed in full ink, which reads as *disabled* — the app dims a disabled
-     chip to 0.35, and that is close to what it looked like. A module is quoted
-     to show which view is active, so with backgrounds off it printed the
-     opposite. */
   .btn,
   .ui-chip.on {
     print-color-adjust: exact;
@@ -1439,14 +768,7 @@ footer p {
   }
 }
 </style>
-<!-- With scripting off there is no .anim-done, and the chip loops above are
-     declared infinite — they would have cycled beside the body copy forever,
-     which is exactly what the Stillness Rule forbids. (The plate slideshows
-     are safe on their own: their frames hold their urls in data- attributes
-     until script hydrates them, so without script they are transparent and
-     empty.) A no-JS reader gets what a reduced-motion reader gets — the still
-     page, every module resting on its declared selection. Same specificity as
-     the rules it answers; later in the document, so it wins. -->
+
 <noscript><style>
   .ui-anim .ui-chip { animation: none; }
   .ui-anim .ui-chip.on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
@@ -1459,9 +781,8 @@ footer p {
 
 <main>
 
-<!-- ============================================================ I — the sheet -->
 <section class="hero">
-<!-- GENERATED:hero-sheet — from marketing/website-workspace/generate-figures.mjs -->
+
 <div class="sheet-field" aria-hidden="true">
 <figure style="--i:0;--w:180" class="fig fig-sm"><svg width="180" height="196" viewBox="0 0 180 196"
       role="img" aria-label="C: C root, E major third, G perfect fifth"><line x1="30" y1="42" x2="150" y2="42" style="stroke:var(--fret);stroke-width:1.2"/><text x="21" y="61" text-anchor="end"
@@ -2636,11 +1957,7 @@ footer p {
          style="fill:var(--ink-soft);font-size:11px">D</text><text x="102" y="28" text-anchor="middle"
            style="fill:var(--fret);font-size:13px">×</text></svg><figcaption>Bdim/F</figcaption></figure>
 </div>
-<!-- /GENERATED:hero-sheet -->
-  <!-- tabindex="-1" so the skip link's jump also moves focus in the engines
-       that only scroll a plain div; the negative value keeps it out of the
-       Tab order. translate="no" on the wordmark: the product's name is the
-       one string on this page a machine translator must leave alone. -->
+
   <div class="hero-card" id="offer" tabindex="-1">
     <div class="wordmark">
       <span class="app-tile"><img src="images/icon.png" alt="" width="512" height="512"></span>
@@ -2659,7 +1976,6 @@ footer p {
 
 <div class="page">
 
-<!-- ================================================= II — where do your fingers go -->
 <section class="why" id="why">
   <h2>Where do your fingers go?</h2>
   <p>When you want to learn music or play an instrument there’s a lot to absorb.
@@ -2675,33 +1991,26 @@ footer p {
     you were playing it, you’ll like poking around in here.</p>
 </section>
 
-<!-- ===================================== III — the same chord, seven instruments -->
-<!-- The rule sits BETWEEN the sections, so each side's padding is the
-     divider's breathing room and stays equal at every breakpoint. -->
 <hr class="rule">
 <section class="movement" id="instruments">
   <div class="instruments">
   <div class="instruments-text">
-  <!-- Two phrases, two lines, breaking at the comma. The nbsp are what make
-       that happen: text-wrap: balance sets this in three otherwise, splitting
-       "The same / chord, seven". Bound as two units it can only break where
-       the sense does. Both halves clear the 24rem measure at the h2's minimum
-       size, so the binding never forces an overflow on a phone. -->
+
   <h2>The&nbsp;same&nbsp;chord, seven&nbsp;instruments</h2>
   <p>Guitar, standard and baritone. Bass, four-string and five. Ukulele, standard
     and baritone. And piano. Learn one instrument, or learn how the notes and
     chords translate from one to the next. A chord on the fretboard and the same
     chord on the keyboard are two views of one thing: the diagrams all come from
     the same engine. Here: the same C chord, drawn on each of the seven.</p>
-<!-- GENERATED:module-instrument — from marketing/website-workspace/generate-figures.mjs -->
+
 <div class="ui-module" role="img" translate="no" aria-label="The app’s Instrument control — Guitar, Piano, Bass, Ukulele — with Guitar selected">
   <span class="ui-label">Instrument</span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip on">Guitar</span><span class="ui-chip">Piano</span></span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip">Bass</span><span class="ui-chip">Ukulele</span></span>
 </div>
-<!-- /GENERATED:module-instrument -->
+
   </div>
-<!-- GENERATED:seven-instruments — from marketing/website-workspace/generate-figures.mjs -->
+
 <div class="seven-up">
 <figure style="--w:180" class="fig fig-lg"><svg width="180" height="196" viewBox="0 0 180 196"
       role="img" aria-label="C: C root, E major third, G perfect fifth"><line x1="30" y1="42" x2="150" y2="42" style="stroke:var(--fret);stroke-width:1.2"/><text x="21" y="61" text-anchor="end"
@@ -2828,13 +2137,12 @@ footer p {
          style="fill:var(--card);font-size:8.5px;font-weight:700">5</text><text x="100" y="122" text-anchor="middle"
          style="fill:var(--ink-soft);font-size:10.5px">G</text></svg><figcaption>Piano</figcaption></figure>
 </div>
-<!-- /GENERATED:seven-instruments -->
+
   </div>
 </section>
 
 </div>
 
-<!-- =============================================================== IV — the plates -->
 <div class="page">
 
 <h2 class="sr-only">What’s inside</h2>
@@ -2849,36 +2157,16 @@ footer p {
     <p>The standard advice is to learn them all, up and down the neck, in every
       key. Music Prism gives you a way to work through that methodically, and a
       reference to come back to as you grow.</p>
-<!-- GENERATED:module-view-inversions — from marketing/website-workspace/generate-figures.mjs -->
+
 <div class="ui-module" role="img" translate="no" aria-label="The app’s View control — Inversions, Progressions, Identify, Scales, CAGED map — with Inversions selected">
   <span class="ui-label">View</span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip on">Inversions</span><span class="ui-chip">Progressions</span></span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip">Identify</span><span class="ui-chip">Scales</span></span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip">CAGED map</span></span>
 </div>
-<!-- /GENERATED:module-view-inversions -->
+
   </div>
-  <!-- Every shot ships twice, and this is the shape every picture on the page
-       uses: a dark <source> first, the light ladder behind it, the PNG
-       fallback last. (tests/site-images.test.js keeps the census.)
 
-       The dark set exists because the app has a dark theme and a reader in dark
-       mode is very likely running it that way; a light plate on a dark page was
-       honest but showed them somebody else's app. Both sets are captures of the
-       real thing — capture-shots.sh shoots each state twice, theme=light and
-       theme=dark, and nothing is retouched either time.
-
-       Per-visit weight is unchanged: <picture> downloads exactly one candidate,
-       so a reader pays for one plate, not two. It is the repo and the publish
-       that carry both.
-
-       Two things the media query does NOT cover, deliberately. The PNG fallback
-       stays light — it is read only by a browser too old to decode WebP, which
-       cannot choose between candidates anyway. And ?theme=dark, the preview
-       override, moves the page's own tokens but not its screenshots: no media
-       query undoes a data-theme, and teaching the shots to follow it would mean
-       scripting what the browser already does correctly for every real reader.
-       Preview the shots by switching the system appearance instead. -->
   <div class="shot-pair">
     <figure class="shot-fig">
       <picture>
@@ -2908,7 +2196,7 @@ footer p {
     <p>Switch the quality and watch the diagram change under you. Play the shapes
       on your instrument and let your mind start making the connections. That’s how
       a chord gets under your fingers.</p>
-<!-- GENERATED:module-quality — from marketing/website-workspace/generate-figures.mjs -->
+
 <div class="ui-module ui-anim ui-cycle-8" role="img" translate="no" aria-label="The app’s Quality control — Major, Maj 7, Minor, Min 7, Dim, Dom 7, Sus 2, Sus 4 — cycling through each quality">
   <span class="ui-label">Quality</span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip" style="--k:0">Major</span><span class="ui-chip on" style="--k:1">Maj 7</span></span>
@@ -2916,20 +2204,9 @@ footer p {
   <span class="ui-chips" style="--cols:2"><span class="ui-chip" style="--k:4">Dim</span><span class="ui-chip" style="--k:5">Dom 7</span></span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip" style="--k:6">Sus 2</span><span class="ui-chip" style="--k:7">Sus 4</span></span>
 </div>
-<!-- /GENERATED:module-quality -->
-  </div>
-  <!-- The plate the copy above describes — "switch the quality and watch the
-       diagram change under you" — done the way CAGED and Scales already do it:
-       a synced slideshow of real captures, cross-fading in step with the
-       Quality module's chip cycle. This was a static 2×2 contrast until
-       2026-07-28, which broke the contract the other cycling plates teach
-       (cycling chip = the picture will follow); now both stacks follow, guitar
-       and piano through the same eight qualities of the same D.
 
-       The base of each stack is the k=1 state (Dmaj7), because that is the
-       module's declared selection — the still, the lightbox target, and the
-       reduced-motion/print rendering all agree with the chip the module rests
-       on. Frames cover every slot except 1; see frame-cycle-8 in the CSS. -->
+  </div>
+
   <div class="shot-pair">
     <figure class="shot-fig">
       <div class="shot-cycle shot-cycle-8">
@@ -3032,14 +2309,14 @@ footer p {
       from its intervals, along with any other reading the same notes allow.</p>
     <p>For the experts: the lowest sounding note decides between a plain name and a
       slash chord.</p>
-<!-- GENERATED:module-view-identify — from marketing/website-workspace/generate-figures.mjs -->
+
 <div class="ui-module" role="img" translate="no" aria-label="The app’s View control — Inversions, Progressions, Identify, Scales, CAGED map — with Identify selected">
   <span class="ui-label">View</span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip">Inversions</span><span class="ui-chip">Progressions</span></span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip on">Identify</span><span class="ui-chip">Scales</span></span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip">CAGED map</span></span>
 </div>
-<!-- /GENERATED:module-view-identify -->
+
   </div>
   <figure class="shot-fig">
     <picture>
@@ -3059,28 +2336,22 @@ footer p {
       they overlap, or highlight one shape on its own. Change the root and watch the
       chord appear in all five positions. “Play the C chord in the A shape” will
       finally make sense.</p>
-<!-- GENERATED:module-view-caged — from marketing/website-workspace/generate-figures.mjs -->
+
 <div class="ui-module" role="img" translate="no" aria-label="The app’s View control — Inversions, Progressions, Identify, Scales, CAGED map — with CAGED map selected">
   <span class="ui-label">View</span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip">Inversions</span><span class="ui-chip">Progressions</span></span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip">Identify</span><span class="ui-chip">Scales</span></span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip on">CAGED map</span></span>
 </div>
-<!-- /GENERATED:module-view-caged -->
-<!-- GENERATED:module-highlight — from marketing/website-workspace/generate-figures.mjs -->
+
 <div class="ui-module ui-wide ui-anim ui-cycle-6" role="img" translate="no" aria-label="The app’s Highlight control on the CAGED map — All, C, A, G, E, D — cycling through each shape">
   <span class="ui-label">Highlight</span>
   <span class="ui-chips" style="--cols:6"><span class="ui-chip on" style="--k:0">All</span><span class="ui-chip" style="--k:1">C</span><span class="ui-chip" style="--k:2">A</span><span class="ui-chip" style="--k:3">G</span><span class="ui-chip" style="--k:4">E</span><span class="ui-chip" style="--k:5">D</span></span>
 </div>
-<!-- /GENERATED:module-highlight -->
+
   </div>
   <figure class="shot-fig">
-    <!-- A synced slideshow of real captures — the app's focus= URL states,
-         shot by capture-shots.sh — cross-fading in step with the Highlight
-         module's chip cycle. Pictures of the app being used, never an
-         interactive demo: the frames take no pointer events, and the base
-         frame (All) is the still, the lightbox target, and the
-         reduced-motion/print rendering. -->
+
     <div class="shot-cycle shot-cycle-6">
       <picture>
         <source media="(prefers-color-scheme: dark)" srcset="images/caged-dark-800.webp 800w, images/caged-dark-1600.webp 1600w, images/caged-dark.webp 2480w" sizes="(max-width: 1099px) calc(100vw - 1.5rem), 1100px" type="image/webp">
@@ -3127,14 +2398,14 @@ footer p {
       decades. iv–VII–III–VI: “Autumn Leaves” in a single breath, and a jazz-standard
       staple. Thirteen of them are built in, root position or voice-led. Learn a
       few and you’ll start hearing every song differently.</p>
-<!-- GENERATED:module-view-progressions — from marketing/website-workspace/generate-figures.mjs -->
+
 <div class="ui-module" role="img" translate="no" aria-label="The app’s View control — Inversions, Progressions, Identify, Scales, CAGED map — with Progressions selected">
   <span class="ui-label">View</span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip">Inversions</span><span class="ui-chip on">Progressions</span></span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip">Identify</span><span class="ui-chip">Scales</span></span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip">CAGED map</span></span>
 </div>
-<!-- /GENERATED:module-view-progressions -->
+
   </div>
   <div class="shot-pair">
     <figure class="shot-fig">
@@ -3165,25 +2436,22 @@ footer p {
     <p>Rather than one huge chart that’s hard to read and harder to memorize, you
       add and subtract the layers yourself, so it stays clear what you’re actually
       looking at.</p>
-<!-- GENERATED:module-view-scales — from marketing/website-workspace/generate-figures.mjs -->
+
 <div class="ui-module" role="img" translate="no" aria-label="The app’s View control — Inversions, Progressions, Identify, Scales, CAGED map — with Scales selected">
   <span class="ui-label">View</span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip">Inversions</span><span class="ui-chip">Progressions</span></span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip">Identify</span><span class="ui-chip on">Scales</span></span>
   <span class="ui-chips" style="--cols:2"><span class="ui-chip">CAGED map</span></span>
 </div>
-<!-- /GENERATED:module-view-scales -->
-<!-- GENERATED:module-show — from marketing/website-workspace/generate-figures.mjs -->
+
 <div class="ui-module ui-wide ui-anim ui-cycle-3" role="img" translate="no" aria-label="The app’s Show control on scales — Triad, + Pentatonic, + Scale — cycling as the layers build">
   <span class="ui-label">Show</span>
   <span class="ui-chips" style="--cols:3"><span class="ui-chip" style="--k:1">Triad</span><span class="ui-chip" style="--k:2">+ Pentatonic</span><span class="ui-chip on" style="--k:0">+ Scale</span></span>
 </div>
-<!-- /GENERATED:module-show -->
+
   </div>
   <figure class="shot-fig">
-    <!-- Same synced-slideshow treatment as the CAGED plate: the show= URL
-         states cross-fade with the Show module's cycle, the layers visibly
-         building. Base frame = the full scale (slot 0, the still). -->
+
     <div class="shot-cycle shot-cycle-3">
       <picture>
         <source media="(prefers-color-scheme: dark)" srcset="images/scales-dark-800.webp 800w, images/scales-dark-1600.webp 1600w, images/scales-dark.webp 2480w" sizes="(max-width: 1099px) calc(100vw - 1.5rem), 1100px" type="image/webp">
@@ -3212,7 +2480,7 @@ footer p {
       the Nashville Number System (I, ii, iii, IV…), the same in every key.
       Change the key and every diagram follows, spelled the way that key spells
       it.</p>
-<!-- GENERATED:module-key — from marketing/website-workspace/generate-figures.mjs -->
+
 <div class="ui-module" role="img" translate="no" aria-label="The app’s Key control with E♭ selected, in minor">
   <span class="ui-label">Key</span>
   <span class="ui-chips" style="--cols:4"><span class="ui-chip">C</span><span class="ui-chip">C♯</span><span class="ui-chip">D</span><span class="ui-chip on">E♭</span></span>
@@ -3220,13 +2488,12 @@ footer p {
   <span class="ui-chips" style="--cols:4"><span class="ui-chip">A♭</span><span class="ui-chip">A</span><span class="ui-chip">B♭</span><span class="ui-chip">B</span></span>
   <span class="ui-chips ui-group" style="--cols:2"><span class="ui-chip">Major</span><span class="ui-chip on">Minor</span></span>
 </div>
-<!-- /GENERATED:module-key -->
-<!-- GENERATED:module-degrees — from marketing/website-workspace/generate-figures.mjs -->
+
 <div class="ui-module ui-wide" role="img" translate="no" aria-label="The degree chips for E♭ minor: i is E♭m, ii° is Fdim, III is G♭, iv is A♭m, v is B♭m, VI is C♭, VII is D♭">
   <span class="ui-label">Degrees</span>
   <span class="ui-chips" style="--cols:7"><span class="ui-chip">i<span class="ui-sub">E♭m</span></span><span class="ui-chip">ii°<span class="ui-sub">Fdim</span></span><span class="ui-chip">III<span class="ui-sub">G♭</span></span><span class="ui-chip">iv<span class="ui-sub">A♭m</span></span><span class="ui-chip">v<span class="ui-sub">B♭m</span></span><span class="ui-chip">VI<span class="ui-sub">C♭</span></span><span class="ui-chip">VII<span class="ui-sub">D♭</span></span></span>
 </div>
-<!-- /GENERATED:module-degrees -->
+
   </div>
   <figure class="shot-fig">
     <picture>
@@ -3238,7 +2505,6 @@ footer p {
   </figure>
 </article>
 
-<!-- ================================================================ V — on paper -->
 <section class="print" id="paper">
   <div class="print-text">
     <h2>Made to be printed.</h2>
@@ -3246,9 +2512,7 @@ footer p {
       has been tuned to come out as a good-looking, easy-to-read page, with an extra
       margin on the hole-punch side, so it holds in a binder.</p>
   </div>
-  <!-- Real PDFs printed from the app, rendered to PNG. Not mockups of pages: the
-       controls, help buttons and legend hints are absent because the app hides
-       them at print, which is the Paper Parity Rule doing its job. -->
+
   <div class="pages">
     <figure class="shot-fig">
       <img src="images/printed-guitar.jpg" alt="A Music Prism sheet printed from the app: every inversion of Cmaj7 on guitar, across three sets of strings." loading="lazy" width="900" height="1165">
@@ -3263,7 +2527,6 @@ footer p {
 
 </div>
 
-<!-- ========================================================= VI — spelled right -->
 <div class="page closer" id="computed">
   <section>
     <h2>Is that chord spelled right?</h2>
@@ -3276,7 +2539,7 @@ footer p {
       and then you really do.</p>
     <p>Drawing from the math instead of from a library is also why the app can grow:
       a new instrument is just a new tuning.</p>
-<!-- GENERATED:atom — from marketing/website-workspace/generate-figures.mjs -->
+
 <div class="atom">
   <figure style="--w:180" class="fig fig-xl"><svg width="180" height="196" viewBox="0 0 180 196"
       role="img" aria-label="F♯maj7: F♯ root, C♯ perfect fifth, E♯ major seventh, A♯ major third"><line x1="30" y1="42" x2="150" y2="42" style="stroke:var(--fret);stroke-width:1.2"/><text x="21" y="61" text-anchor="end"
@@ -3340,11 +2603,10 @@ footer p {
     </li>
   </ol>
 </div>
-<!-- /GENERATED:atom -->
+
   </section>
 </div>
 
-<!-- ============================================================= VII — download -->
 <div class="page">
 <section class="download" id="download">
   <span class="app-tile"><img class="icon" src="images/icon.png" alt="" width="512" height="512"></span>
@@ -3352,18 +2614,10 @@ footer p {
   <p>Free. No demo mode, no ads, and nothing to sign up for.</p>
   <a class="btn" data-download href="https://github.com/individuate/music-prism.com/releases/latest/download/MusicPrism.dmg">Download for Mac</a>
   <p class="btn-note" data-mac-note>A macOS app — visit this page on your Mac to download.</p>
-  <!-- The reader's two questions at the one moment the page asks for something:
-       is this safe to open, and what do I do with it. Both answers are facts
-       (RELEASE.md, and SUEnableAutomaticChecks in the stamped Info.plist), and
-       the update line stops at "tell you" on purpose — Sparkle checks on a
-       schedule and prompts; it does not install behind your back, so this must
-       not say it keeps itself up to date. Carries data-download so it hides
-       with the button for a visitor who isn't on a Mac. -->
+
   <p class="btn-note" data-download>It’s signed and notarized by Apple. Drag it to your
     Applications folder and open it — after that it’ll tell you when there’s an update.</p>
-  <!-- data-version is the stamp target: scripts/publish_site.py rewrites this
-       line from releases.json before publishing, and refuses to publish if it
-       cannot. Do not reword it by hand. -->
+
   <p class="label" data-version style="margin-top:1.1rem">Version 1.0.0 · 4.6 MB</p>
   <p class="btn-note">Requires macOS 10.15 Catalina or later.</p>
 
@@ -3374,10 +2628,6 @@ footer p {
       feature requests get collected and built into the app over time.</p>
   </div>
 
-  <!-- Facts only, matched to the shipped build: the keyboard cursor and
-       announcements live in src/main.js, the diagram labels in the renderers,
-       and the two system settings in tokens.css / styles.css. Nothing here may
-       promise a feature the build doesn't have. -->
   <div class="colophon">
     <h3>Accessibility is built in.</h3>
     <p>The whole app works from the keyboard — every control is reachable, and
@@ -3398,37 +2648,20 @@ footer p {
 </footer>
 </div>
 
-
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot preview">
   <button class="lightbox-close" type="button" aria-label="Close preview">&times;</button>
-  <!-- No src attribute at all until openLightbox sets one; see closeLightbox. -->
+
   <img id="lightbox-img" alt="">
 </div>
 
 <script>
-// Platform detection and the theme override both moved into <head>, so the page
-// paints the right branch instead of swapping to it. See the comment there.
 
-// ------------------------------------------------------------------ lightbox
-// Adapted from the LYFP site: click a screenshot to see it at full size over a
-// dimmed page. Same src (the images are already 2x), focus returned on close.
 (function () {
   var overlay = document.getElementById('lightbox');
   var lbImg = document.getElementById('lightbox-img');
   var closeBtn = overlay.querySelector('.lightbox-close');
   var previousFocus = null;
 
-  // The point of the lightbox is to see the capture at full size, so it must
-  // NOT reuse img.currentSrc: since the shots gained a srcset ladder that is
-  // whichever variant suited the thumbnail, and on a phone that is the 800px
-  // one — which the overlay would then blow up to fill the screen. Take the
-  // widest candidate the <source> offers instead, and fall back to the img's
-  // own src (the full-width PNG) when there is no picture, as for .pages img.
-  //
-  // Which <source>, though: each shot now offers a dark set ahead of the light
-  // one, so "the first source" would hand a light-mode reader the dark plate.
-  // Resolve the media query the same way the browser picked the thumbnail —
-  // first source whose media matches, or that has no media at all.
   function chooseSource(picture) {
     var sources = picture.querySelectorAll('source[srcset]');
     for (var i = 0; i < sources.length; i += 1) {
@@ -3452,15 +2685,11 @@ footer p {
     return best ? new URL(best.url, document.baseURI).href : (img.currentSrc || img.src);
   }
 
-  // On a cycling plate the frames take no pointer events, so a click always
-  // lands on the base .shot underneath — and the reader who clicked the "G
-  // shape" they could see got the "all shapes" still instead. Whichever frame
-  // is currently opaque is the one they meant.
   function visibleImage(img) {
     var cycle = img.closest ? img.closest('.shot-cycle') : null;
     if (!cycle) return img;
     var best = img;
-    var bestOpacity = 0.5;   // below this the base is still what's showing
+    var bestOpacity = 0.5;
     cycle.querySelectorAll('.frame img').forEach(function (frame) {
       var opacity = parseFloat(getComputedStyle(frame.parentNode).opacity) || 0;
       if (opacity > bestOpacity) { bestOpacity = opacity; best = frame; }
@@ -3468,22 +2697,12 @@ footer p {
     return best;
   }
 
-  // Guards the delayed full-size swap below: close and reopen on a different
-  // shot before the first download lands, and the late arrival is dropped
-  // instead of pasted over the wrong picture.
   var openToken = 0;
 
   function openLightbox(clicked) {
     var img = visibleImage(clicked);
     var src = fullSize(img);
     previousFocus = document.activeElement;
-    // Thumbnail first, full size when it arrives. On a slow connection the
-    // widest candidate takes seconds, and the reader spent all of them looking
-    // at an empty dark scrim. The variant that drew the thumbnail is already
-    // in cache, so it paints the overlay immediately — soft at this size, but
-    // present — and the full capture replaces it in place. No onerror on the
-    // preload: if the full size never arrives, the thumbnail stands, which
-    // still beats the error listener's close.
     var token = ++openToken;
     var quick = img.currentSrc || img.src;
     lbImg.src = quick;
@@ -3502,9 +2721,6 @@ footer p {
     if (td && td.signal) td.signal('screenshotZoomed', { image: src.split('/').pop() });
   }
 
-  // An image that fails to load left the reader looking at an empty dark scrim
-  // with nothing to say whether it was still loading or broken. Close instead —
-  // the thumbnail they clicked is still on the page behind it.
   lbImg.addEventListener('error', function () {
     if (overlay.classList.contains('active')) closeLightbox();
   });
@@ -3512,9 +2728,6 @@ footer p {
   function closeLightbox() {
     overlay.classList.remove('active');
     document.documentElement.classList.remove('lightbox-open');
-    // removeAttribute, not src = '': a present-but-empty src resolves against
-    // the document url, and WebKit will go and fetch this 250 KB page as an
-    // image every time the lightbox closes.
     lbImg.removeAttribute('src');
     if (previousFocus) { previousFocus.focus(); previousFocus = null; }
   }
@@ -3523,8 +2736,6 @@ footer p {
     img.setAttribute('tabindex', '0');
     img.setAttribute('role', 'button');
     img.setAttribute('aria-label', 'View larger: ' + img.alt);
-    // The hover-grow's handle on a slideshow stack: the CSS scales the cycle
-    // as one unit, and only once script has made clicking it true.
     var cycle = img.closest ? img.closest('.shot-cycle') : null;
     if (cycle) cycle.setAttribute('data-zoom', '');
     img.addEventListener('click', function () { openLightbox(img); });
@@ -3533,18 +2744,10 @@ footer p {
     });
   });
 
-  // Any click inside the overlay closes it — the image included. The whole
-  // surface carries cursor:pointer, and the old handler kept the promise
-  // everywhere except on the one thing the reader is most likely to click:
-  // the picture itself, which swallowed the click and did nothing.
   overlay.addEventListener('click', function () { closeLightbox(); });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && overlay.classList.contains('active')) closeLightbox();
     if (e.key === 'Tab' && overlay.classList.contains('active')) {
-      // Trap at the edges only, rather than pinning every Tab to the close
-      // button: the previous version never let focus leave, but it also killed
-      // Shift+Tab outright and would have quietly stranded any second control
-      // added to the overlay later.
       var focusable = overlay.querySelectorAll(
         'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
       if (!focusable.length) return;
@@ -3560,28 +2763,12 @@ footer p {
     }
   });
 
-  // The module loops and plate slideshows are pure CSS; script's only job is
-  // stopping a loop the reader can't see. The observed unit is the PLATE, not
-  // each animated element: a module and its synced slideshow must pause as
-  // one, or independent pausing would drift their phases apart for good.
-  // Without script (or IntersectionObserver) everything simply runs — cheap,
-  // and the reduced-motion guard lives in the CSS regardless.
   var stages = [];
   document.querySelectorAll('.ui-anim, .shot-cycle').forEach(function (el) {
     var stage = el.closest('.plate') || el;
     if (stages.indexOf(stage) === -1) stages.push(stage);
   });
 
-  // The slideshow frames hold their urls in data- attributes until the plate
-  // they belong to is actually approached. They are opacity:0 by definition,
-  // and loading="lazy" was still fetching all seven of them — 1.9 MB, 39% of
-  // everything the page downloads, for pictures no one has looked at yet. The
-  // sharper version of the same problem: under prefers-reduced-motion the
-  // cross-fade never runs at all, so a reader who asked for less motion was
-  // paying 1.9 MB for animation they had switched off. Now they never load.
-  //
-  // Source before image, always: the source element has to be a candidate
-  // before the image gets a src, or the picture commits to the fallback PNG.
   var motionOK = !window.matchMedia
     || !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function hydrateFrames(stage) {
@@ -3593,17 +2780,6 @@ footer p {
       });
   }
 
-  // One round, then rest. A loop that never stops is decoration sitting beside
-  // body copy, which the Stillness Rule forbids on every surface; one full
-  // period is all the argument needs, because by then every chip has had its
-  // turn. It also happens to be the only clean place to stop: each keyframe set
-  // is off at 0% and at 100%, so at exactly one period the stage is back where
-  // it began — nothing selected, every frame transparent, the base still
-  // showing. .anim-done then drops the animations and gives the module its
-  // declared selection back, which is the state a reduced-motion reader has
-  // seen all along and the state the base screenshot underneath already shows.
-  //
-  // A chip cycles every 3s, so N chips are one round of N * 3s.
   function roundOf(stage) {
     var longest = 0;
     stage.querySelectorAll('[class*="cycle-"]').forEach(function (el) {
@@ -3613,10 +2789,6 @@ footer p {
     return longest;
   }
 
-  // Counted in VISIBLE milliseconds rather than wall-clock, because the CSS
-  // pauses a stage that has scrolled away. A reader who leaves halfway through
-  // a round and comes back gets the rest of it, instead of returning to a stage
-  // that quietly finished without them.
   var rounds = [];
   if (motionOK) {
     stages.forEach(function (stage) {
@@ -3647,13 +2819,6 @@ footer p {
   }
 
   if (stages.length && 'IntersectionObserver' in window) {
-    // Two watchers, two distances. The loop pauses and resumes at the
-    // viewport's edge (80px), but the frames' downloads need a head start:
-    // hydrated at that same edge, a slow connection spent the plate's one
-    // visible round still fetching, so the slideshow rested before it had
-    // ever shown a frame. At 600px the fetch begins most of a viewport
-    // early — and a reader who never scrolls that far still downloads
-    // nothing, which is the economy the data- attributes exist for.
     var hydrator = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
@@ -3669,11 +2834,6 @@ footer p {
     }, { rootMargin: '80px' });
     stages.forEach(function (stage) { hydrator.observe(stage); loopWatcher.observe(stage); });
   } else {
-    // No observer: the loops run unconditionally, so the frames have to be
-    // there, and the round is timed from load rather than from arrival. Without
-    // script at all the frames stay empty and the cross-fade simply reveals the
-    // base still underneath — the plate reads as the one photograph it already
-    // is, and the loop keeps going, which is the old behaviour and no worse.
     stages.forEach(function (stage) {
       hydrateFrames(stage);
       runRound(stage, true);
