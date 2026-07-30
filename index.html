@@ -790,6 +790,17 @@ footer p {
 
   .shot-pair .shot { width: 100%; }
   .shot-cycle { width: 100%; }
+
+  .shot-fig > picture > .shot,
+  .shot-fig > .shot-cycle {
+    width: calc(100% * 1240 / 1195);
+    margin-left: calc(-100% * 45 / 1195);
+  }
+
+  .plate { overflow: visible; }
+
+  .plate .shot[role="button"],
+  .plate .shot-cycle[data-zoom] { transform-origin: right center; }
   .print { grid-template-columns: minmax(0, 1fr); gap: 3rem; padding: 5rem 0; }
   .pages { gap: 1.2rem; }
   .atom { grid-template-columns: minmax(0, 1fr); gap: 3rem; justify-items: center; }
@@ -843,8 +854,16 @@ footer p {
 
   .plate, .print, .atom, .instruments { grid-template-columns: 1fr; gap: 1.5rem; }
   .movement, .plate, .why, .closer, .download { padding: 1.5rem 0; }
-  .shot, .print img { max-width: 34rem; }
-  .shot-cycle { max-width: 34rem; }
+  .print img { max-width: 34rem; }
+
+  .shot-fig > picture > .shot,
+  .shot-fig > .shot-cycle {
+    width: calc(34rem * 1240 / 1195);
+    max-width: none;
+    margin-left: calc(-34rem * 45 / 1195);
+  }
+  .shot-cycle .shot { width: 100%; max-width: none; margin-left: 0; }
+  .plate { overflow: visible; }
 
   .btn,
   .ui-chip.on {
@@ -2721,19 +2740,19 @@ footer p {
   <p class="btn-note">Requires macOS 10.15 Catalina or later.</p>
 
   <div class="colophon">
-    <h3>We welcome your feedback.</h3>
-    <p>The Help menu gives you a way to report a bug or ask for a feature, right
-      inside the app. It drafts the email; you send it. We read every one, and
-      feature requests get collected and built into the app over time.</p>
-  </div>
-
-  <div class="colophon">
     <h3>Accessibility is built in.</h3>
     <p>The whole app works from the keyboard — every control is reachable, and
       in the Identify view the arrow keys walk the fretboard or the piano while
       Enter marks a note. Every diagram describes itself to VoiceOver, naming
       each chord tone, and Identify announces the chord it finds. Light and
       dark follow your Mac’s appearance, and Reduce Motion is honored.</p>
+  </div>
+
+  <div class="colophon">
+    <h3>We welcome your feedback.</h3>
+    <p>The Help menu gives you a way to report a bug or ask for a feature, right
+      inside the app. It drafts the email; you send it. We read every one, and
+      feature requests get collected and built into the app over time.</p>
   </div>
 </section>
 
