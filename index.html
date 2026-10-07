@@ -57,6 +57,7 @@
   --ink-soft: #6E6353;
   --line: #D8CFBF;
   --fret: #9D8D71;
+  --landmark: #7B6E5B;
   --key-white: #FFFDF8;
   --key-black: #35302A;
   --key-edge: #9D8D71;
@@ -75,6 +76,7 @@
     --ink-soft: #A79A85;
     --line: #4A4234;
     --fret: #726752;
+    --landmark: #988C77;
     --key-white: #4A4336;
     --key-black: #16120D;
     --key-edge: #9D8D71;
@@ -93,6 +95,7 @@
     --ink-soft: #A79A85;
     --line: #4A4234;
     --fret: #726752;
+    --landmark: #988C77;
     --key-white: #4A4336;
     --key-black: #16120D;
     --key-edge: #9D8D71;
@@ -2427,6 +2430,8 @@ footer p {
       from its intervals, along with any other reading the same notes allow.</p>
     <p>For the experts: the lowest sounding note decides between a plain name and a
       slash chord.</p>
+    <p>When the chord turns up in one of the app’s progressions, one more click
+      shows it there, in a key where it’s at home.</p>
 
 <div class="ui-module" role="img" translate="no" aria-label="The app’s View control — Inversions, Progressions, Identify, Scales, CAGED map — with Identify selected">
   <span class="ui-label">View</span>
@@ -2436,14 +2441,24 @@ footer p {
 </div>
 
   </div>
-  <figure class="shot-fig">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="images/identify-complex-dark-800.webp 800w, images/identify-complex-dark-1600.webp 1600w, images/identify-complex-dark.webp 2480w" sizes="(max-width: 1099px) calc(100vw - 1.5rem), 1100px" type="image/webp">
-      <source srcset="images/identify-complex-800.webp 800w, images/identify-complex-1600.webp 1600w, images/identify-complex.webp 2480w" sizes="(max-width: 1099px) calc(100vw - 1.5rem), 1100px" type="image/webp">
-      <img class="shot" src="images/identify-complex.png" alt="Music Prism’s Identify view naming a grip marked on a blank fretboard — x x 7 7 5 5 — as Asus4, with the alternate reading Dsus2/A." loading="lazy" decoding="async" width="2480" height="1617">
-    </picture>
-    <figcaption>You found it by ear at the seventh fret, and now you know what it is: Asus4, also known as Dsus2/A</figcaption>
-  </figure>
+  <div class="shot-pair">
+    <figure class="shot-fig">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="images/identify-complex-dark-800.webp 800w, images/identify-complex-dark-1600.webp 1600w, images/identify-complex-dark.webp 2480w" sizes="(max-width: 1099px) calc(100vw - 1.5rem), 800px" type="image/webp">
+        <source srcset="images/identify-complex-800.webp 800w, images/identify-complex-1600.webp 1600w, images/identify-complex.webp 2480w" sizes="(max-width: 1099px) calc(100vw - 1.5rem), 800px" type="image/webp">
+        <img class="shot" src="images/identify-complex.png" alt="Music Prism’s Identify view naming a grip marked on a blank fretboard — x x 7 7 5 5 — as Asus4, with the alternate reading Dsus2/A." loading="lazy" decoding="async" width="2480" height="1617">
+      </picture>
+      <figcaption>You found it by ear at the seventh fret, and now you know what it is: Asus4, also known as Dsus2/A</figcaption>
+    </figure>
+    <figure class="shot-fig">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="images/identify-door-dark-800.webp 800w, images/identify-door-dark-1600.webp 1600w, images/identify-door-dark.webp 2480w" sizes="(max-width: 1099px) calc(100vw - 1.5rem), 800px" type="image/webp">
+        <source srcset="images/identify-door-800.webp 800w, images/identify-door-1600.webp 1600w, images/identify-door.webp 2480w" sizes="(max-width: 1099px) calc(100vw - 1.5rem), 800px" type="image/webp">
+        <img class="shot" src="images/identify-door.png" alt="Identify naming the grip x 7 9 8 9 x as Emaj7, with a button beneath the result reading “See Emaj7 in a progression →”." loading="lazy" decoding="async" width="2480" height="1617">
+      </picture>
+      <figcaption>Emaj7, one click from the ii–V–I in E</figcaption>
+    </figure>
+  </div>
 </article>
 
 <article class="plate bleed-right">
@@ -2736,7 +2751,7 @@ footer p {
   <p class="btn-note" data-download>It’s signed and notarized by Apple. Drag it to your
     Applications folder and open it — after that it’ll tell you when there’s an update.</p>
 
-  <p class="label" data-version style="margin-top:1.1rem">Version 1.2.1 · 4.6 MB</p>
+  <p class="label" data-version style="margin-top:1.1rem">Version 1.2.2 · 4.6 MB</p>
   <p class="btn-note">Requires macOS 10.15 Catalina or later.</p>
 
   <div class="colophon">
